@@ -7,6 +7,16 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+		'view' => [
+			'theme' => [
+				'pathMap' => [ 
+					'@app/views' => [ 
+						'@webroot/themes/demo/views',
+					]
+				],
+				'baseUrl'   => '@web/themes/demo/views',
+		   ],
+		],
 		'urlManager' => [
 			'showScriptName' => false,
 			'enablePrettyUrl' => true
@@ -19,7 +29,10 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+			//'class' => 'app\components\User',
+			'identityClass' => 'dektrium\user\models\User',
+			//'loginUrl' => ['/web/site/login'],  
+            //'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -44,11 +57,20 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
 		
     ],
+	
 	'modules' => [
    
 		'gii' => [
 		  'class' => 'yii\gii\Module', //adding gii module
 		  'allowedIPs' => ['127.0.0.1', '::1']  //allowing ip's 
+		],
+		'admin' => [
+            'class' => 'app\modules\admin\Module',
+		],
+		'user' => [
+			'class' => 'dektrium\user\Module',
+			'enableUnconfirmedLogin' => true,
+			 'admins' => ['admin']
 		],
 	   
 	  ],
