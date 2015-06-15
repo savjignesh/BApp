@@ -9,14 +9,14 @@ use Yii;
  *
  * @property integer $item_ID
  * @property string $item_name
+ * @property string $Item_role
+ * @property string $item_stock
+ * @property string $item_uom
+ * @property integer $item_cat_Id
  * @property string $description
  * @property string $image
  * @property string $purchase_price
  * @property string $sales_price
- * @property integer $item_cat_Id
- * @property string $Item_role
- * @property string $item_stock
- * @property string $item_uom
  * @property integer $is_deleted
  * @property integer $created_Id
  * @property string $created_time
@@ -34,17 +34,17 @@ class Item extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @inheritdoc 'created_Id', 'created_time', 'updated_Id', 'updated_time'
      */
     public function rules()
     {
         return [
-            [['item_name', 'description', 'image', 'purchase_price', 'sales_price', 'item_cat_Id', 'Item_role', 'item_stock', 'item_uom', 'is_deleted', 'created_Id', 'created_time', 'updated_Id', 'updated_time'], 'required'],
+            [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description', 'image', 'purchase_price', 'sales_price', 'is_deleted'], 'required'],
             [['item_cat_Id', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
-            [['item_name'], 'string', 'max' => 100],
-            [['description'], 'string', 'max' => 200],
-            [['image', 'purchase_price', 'sales_price', 'Item_role', 'item_stock', 'item_uom'], 'string', 'max' => 50]
+            [['item_name', 'image'], 'string', 'max' => 100],
+            [['Item_role', 'item_stock', 'item_uom', 'purchase_price', 'sales_price'], 'string', 'max' => 50],
+            [['description'], 'string', 'max' => 200]
         ];
     }
 
@@ -56,14 +56,14 @@ class Item extends \yii\db\ActiveRecord
         return [
             'item_ID' => 'Item  ID',
             'item_name' => 'Item Name',
+            'Item_role' => 'Item Role',
+            'item_stock' => 'Item Stock',
+            'item_uom' => 'Item Uom',
+            'item_cat_Id' => 'Item Cat  ID',
             'description' => 'Description',
             'image' => 'Image',
             'purchase_price' => 'Purchase Price',
             'sales_price' => 'Sales Price',
-            'item_cat_Id' => 'Item Cat  ID',
-            'Item_role' => 'Item Role',
-            'item_stock' => 'Item Stock',
-            'item_uom' => 'Item Uom',
             'is_deleted' => 'Is Deleted',
             'created_Id' => 'Created  ID',
             'created_time' => 'Created Time',

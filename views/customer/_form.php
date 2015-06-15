@@ -47,15 +47,15 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'dnd_email')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'id_deleted')->textInput() ?>
-
-    <?= $form->field($model, 'created_Id')->textInput() ?>
+<!--
+   <?= $form->field($model, 'created_Id')->textInput() ?>
 
     <?= $form->field($model, 'created_time')->textInput() ?>
 
     <?= $form->field($model, 'updated_Id')->textInput() ?>
 
     <?= $form->field($model, 'updated_time')->textInput() ?>
-
+-->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

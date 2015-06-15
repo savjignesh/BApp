@@ -47,7 +47,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_name', 'gender', 'home_phone', 'mobile1', 'customer_email', 'address1', 'city'], 'required'],
+            [['customer_name', 'gender', 'home_phone', 'mobile1', 'customer_email', 'address1', 'city','current_balance'], 'required'],
             [['id_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['customer_name', 'home_phone', 'mobile1', 'mobile2', 'customer_email', 'marketing_person_name', 'marketing_persion_contact', 'accounting_persion_name', 'accounting_persion_contact', 'dnd_sms', 'dnd_call', 'dnd_email'], 'string', 'max' => 100],
