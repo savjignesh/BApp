@@ -7,9 +7,18 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Test */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<?php
+ 
+$this->registerJs(
+   '$("document").ready(function(){ 
+        $("#new_country").on("pjax:end", function() {
+            $.pjax.reload({container:"#countries"});  //Reload GridView
+        });
+    });'
+);
+?>
 <div class="test-form">
-
+<?php yii\widgets\Pjax::begin(['id' => 'new_country']) ?>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 50]) ?>
@@ -21,5 +30,5 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
+<?php yii\widgets\Pjax::end() ?>
 </div>

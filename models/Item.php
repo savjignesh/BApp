@@ -3,7 +3,9 @@
 namespace app\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\AttributeBehavior;
+use yii\db\Expression;
 /**
  * This is the model class for table "tbl_item".
  *
@@ -28,20 +30,51 @@ class Item extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+	public $file;
     public static function tableName()
     {
         return 'tbl_item';
     }
 
-    /**
-     * @inheritdoc 'created_Id', 'created_time', 'updated_Id', 'updated_time'
+	public function behaviors()
+	{
+		 return [
+			[
+				'class' => TimestampBehavior::className(),
+				'createdAtAttribute' => 'created_time',
+				'updatedAtAttribute' => 'updated_time',
+				'value' => new Expression('NOW()'),
+			],
+			[
+				'class' => AttributeBehavior::className(),
+				'attributes' => [
+					Item::EVENT_BEFORE_INSERT => 'created_Id',
+					Item::EVENT_BEFORE_UPDATE => 'updated_Id',
+					],
+				'value' => function ($event) {
+					return Yii::$app->user->identity->id;
+					},
+			],
+			[
+				'class' => AttributeBehavior::className(),
+				'attributes' => [
+					Item::EVENT_BEFORE_INSERT => 'is_deleted',
+					],
+				'value' => function ($event) {
+					return 0;
+					},
+			],
+		];
+	}
+     /* @inheritdoc 'created_Id', 'created_time', 'updated_Id', 'updated_time'
      */
     public function rules()
     {
         return [
-            [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description', 'image', 'purchase_price', 'sales_price', 'is_deleted'], 'required'],
+            [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description',  'purchase_price', 'sales_price'], 'required'],
             [['item_cat_Id', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
+			[['file'],'file'],
             [['item_name', 'image'], 'string', 'max' => 100],
             [['Item_role', 'item_stock', 'item_uom', 'purchase_price', 'sales_price'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200]
@@ -62,6 +95,7 @@ class Item extends \yii\db\ActiveRecord
             'item_cat_Id' => 'Item Cat  ID',
             'description' => 'Description',
             'image' => 'Image',
+            'file' => 'Image',
             'purchase_price' => 'Purchase Price',
             'sales_price' => 'Sales Price',
             'is_deleted' => 'Is Deleted',

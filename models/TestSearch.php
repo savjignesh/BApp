@@ -45,7 +45,7 @@ class TestSearch extends Test
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-			 'pagination' => array('pageSize' => 5),
+			 'pagination' => array('pageSize' => 10),
         ]);
 
         $this->load($params);

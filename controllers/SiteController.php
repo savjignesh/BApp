@@ -11,24 +11,20 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public function behaviors()
+     public function behaviors()
     {
         return [
-			
             'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['login', 'error'],
-						'allow' => true,
-					],
-					[
-						'actions' => ['logout', 'index'], // add all actions to take guest to login page
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,6 +52,7 @@ class SiteController extends Controller
 	}
     public function actionIndex()
     {
+		$this->layout = 'onecolumn';
         return $this->render('index');
     }
 

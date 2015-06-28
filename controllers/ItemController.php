@@ -8,7 +8,7 @@ use app\models\ItemSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * ItemController implements the CRUD actions for Item model.
  */
@@ -32,6 +32,7 @@ class ItemController extends Controller
      */
     public function actionIndex()
     {
+		//$this->layout = 'onecolumn';
         $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -62,8 +63,17 @@ class ItemController extends Controller
     {
         $model = new Item();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+			$model->file =UploadedFile::getInstance($model, 'file');
+			if($model->file!=null){
+				$model->file->saveAs('uploads/' . $model->item_ID.'-'.$model->item_name . '.' . $model->file->extension);
+				$model->image = 'uploads/' . $model->item_ID.'-'.$model->item_name . '.' . $model->file->extension;
+			}else{
+				$model->image = 'uploads/1.jpg';
+			}
+			$model->save();
             return $this->redirect(['view', 'id' => $model->item_ID]);
+			
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -81,7 +91,13 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+			$model->file =UploadedFile::getInstance($model, 'file');
+			if($model->file!=null){
+				$model->file->saveAs('uploads/' . $model->item_ID.'-'.$model->item_name . '.' . $model->file->extension);
+				$model->image = 'uploads/' . $model->item_ID.'-'.$model->item_name . '.' . $model->file->extension;
+			}
+			$model->save();
             return $this->redirect(['view', 'id' => $model->item_ID]);
         } else {
             return $this->render('update', [
@@ -98,8 +114,10 @@ class ItemController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->delete();
+        $model = $this->findModel($id);
+		$model->is_deleted = 1;
+		$model->save();
         return $this->redirect(['index']);
     }
 

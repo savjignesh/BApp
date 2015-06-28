@@ -1,0 +1,11 @@
+price =sales price
+
+item name + image 
+
+display none: vat, tax
+
+
+doubts to ask:
+give vat, tax to item pop up
+ask item add display images ( at place of keyword)
+search category wise

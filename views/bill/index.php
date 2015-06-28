@@ -4,53 +4,40 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ItemSearch */
+/* @var $searchModel app\models\BillSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Items';
+$this->title = 'Bills';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="item-index">
+<div class="bill-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Bill', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php \yii\widgets\Pjax::begin(['id' => 'countries']) ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-		'options' => [
-			'id' => 'cool',
-		],
 		'rowOptions'   => function ($model, $key, $index, $grid) {
-			return ['data-id' => $model->item_ID];
+			return ['data-id' => $model->bill_ID];
 		},
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-             [
-				'attribute' => 'image',
-				'format' => 'html',
-				'label' => 'Image',
-				'filter' =>false,
-				'value' => function ($data) {
-					return Html::img(Yii::$app->homeUrl.'/' . $data['image'],
-						['width' => '60px']);
-				},
-			],
-            'item_name',
-            'description',
-            
-            'purchase_price',
-            // 'sales_price',
-            // 'item_cat_Id',
-            // 'Item_role',
-            // 'item_stock',
-            // 'item_uom',
+            'bill_ID',
+            'customer_Id',
+            'bill_date',
+            'net_amount',
+            'gross_amount',
+            // 'vat',
+            // 'tax',
+            // 'discount',
+            // 'total_items',
             // 'is_deleted',
             // 'created_Id',
             // 'created_time',
@@ -95,15 +82,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 	<?php
-$this->registerJs("
+	$this->registerJs("
 
-    $('td').click(function (e) {
-        var id = $(this).closest('tr').data('id');
-        if(e.target == this)
-            location.href = '" . Url::to(['update']) . "?id=' + id;
-    });
+		$('td').click(function (e) {
+			var id = $(this).closest('tr').data('id');
+			if(e.target == this)
+				location.href = '" . Url::to(['update']) . "?id=' + id;
+		});
 
-");
-?>
-<?php \yii\widgets\Pjax::end(); ?>
+	");
+	?>
 </div>

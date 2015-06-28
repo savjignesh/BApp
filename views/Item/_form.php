@@ -12,13 +12,13 @@ use app\models\Category;
 
 <div class="item-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
+   <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+	<?= $form->errorSummary($model); ?>
     <?= $form->field($model, 'item_name')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'description')->textArea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => 50]) ?>
+    <?= $form->field($model, 'file')->fileInput(); ?>
 
     <?= $form->field($model, 'purchase_price')->textInput(['maxlength' => 50]) ?>
 
@@ -37,7 +37,7 @@ use app\models\Category;
 
     <?= $form->field($model, 'item_uom')->textInput(['maxlength' => 50]) ?>
 
-	<?= $form->field($model, 'is_deleted')->dropDownList(['0' => 'No', '1' => 'Yes']); ?>
+	<!--<?php //$form->field($model, 'is_deleted')->dropDownList(['0' => 'No', '1' => 'Yes']); ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

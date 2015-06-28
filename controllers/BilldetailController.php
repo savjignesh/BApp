@@ -1,19 +1,18 @@
 <?php
 
-namespace app\Controllers;
+namespace app\controllers;
 
 use Yii;
-use app\models\Test;
-use app\models\TestSearch;
+use app\models\Billdetail;
+use app\models\BilldetailSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\Command;
 
 /**
- * TestController implements the CRUD actions for Test model.
+ * BilldetailController implements the CRUD actions for Billdetail model.
  */
-class TestController extends Controller
+class BilldetailController extends Controller
 {
     public function behaviors()
     {
@@ -28,61 +27,53 @@ class TestController extends Controller
     }
 
     /**
-     * Lists all Test models.
+     * Lists all Billdetail models.
      * @return mixed
      */
     public function actionIndex()
     {
-		 $model = new Test();
- 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
-            $model = new Test(); //reset model
-        }
- 
-        $searchModel = new TestSearch();
+        $searchModel = new BilldetailSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
- 
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model' => $model,
         ]);
     }
 
     /**
-     * Displays a single Test model.
+     * Displays a single Billdetail model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-		
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Test model.
+     * Creates a new Billdetail model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($bid)
     {
-        $model = new Test();
-
+        $model = new Billdetail();
+		$model->item_Id = $bid;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->billdetail_ID]);
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing Test model.
+     * Updates an existing Billdetail model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -92,7 +83,7 @@ class TestController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->billdetail_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -101,7 +92,7 @@ class TestController extends Controller
     }
 
     /**
-     * Deletes an existing Test model.
+     * Deletes an existing Billdetail model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -114,15 +105,15 @@ class TestController extends Controller
     }
 
     /**
-     * Finds the Test model based on its primary key value.
+     * Finds the Billdetail model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Test the loaded model
+     * @return Billdetail the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Test::findOne($id)) !== null) {
+        if (($model = Billdetail::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

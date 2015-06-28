@@ -1,7 +1,7 @@
 
 
 #virtualKeyboard {
-    width: 110%;
+   /* width: 110%; */
     text-align: center;
     /*background-color:#7b8490;*/
     /*border-top:3px solid #000;*/
@@ -16,7 +16,7 @@
     padding-left:25px;
     display:block;
 /*    position:absolute;*/
-    bottom:0px; left:0px;
+    top:0px;
  }
 #keyboard:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
 
@@ -31,7 +31,7 @@
 
 .button
 {
-    width:35px; height:45px;
+    width:16.5%; height:50px;
     background-color:#fff;
     position:relative;
     float:left;

@@ -103,7 +103,7 @@ AppAsset::register($this);
                      <li>           
 						<?= Html::a('<i class="fa fa-code "></i>Category', ['category/index']) ?>
                     </li>
-					<li>
+                    <li>
 						<?= Html::a('<i class="fa fa-dashcube"></i>Bill', ['bill/index']) ?>
                     </li>
                     <li>
@@ -130,6 +130,8 @@ AppAsset::register($this);
                             </li>
                         </ul>
                     </li>
+                    
+                   
                 </ul> 
             </div>
 
@@ -173,12 +175,8 @@ AppAsset::register($this);
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
 			
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<?= $content ?>
-			</div>
-			
-			<div class="col-md-4">
-				 <div id="virtualKeyboard"></div>
 			</div>
 			
         </div>
@@ -201,9 +199,9 @@ AppAsset::register($this);
     <script src="<?php echo $this->theme->baseUrl ?>/js/jquery.metisMenu.js"></script>
 	
 	<!-- For KeyBord -->
-	
-	<script type="text/javascript" src="<?php echo $this->theme->baseUrl ?>/js/jsKeyboard.js"></script>
-	<script src="<?php echo $this->theme->baseUrl ?>/js/main.js"></script>
+	<!--
+	<script type="text/javascript" src="<?php //echo $this->theme->baseUrl ?>/js/jsKeyboard.js"></script>
+	<script src="<?php //echo $this->theme->baseUrl ?>/js/main.js"></script> -->
 	
 	
     <!-- CUSTOM SCRIPTS -->
@@ -211,11 +209,9 @@ AppAsset::register($this);
 <script>
 
 jQuery(document).ready(function($) {
-	//$("#cool-filters").keyup(function(){
-	//	$.pjax.reload({container:'#countries'});
-	//	console.log('up');
-	//});
-	});
+	
+				
+		  });
 		
 </script>
 

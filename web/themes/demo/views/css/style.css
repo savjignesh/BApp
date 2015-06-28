@@ -359,4 +359,7 @@ footer {
     #menuClose {
         visibility:hidden;
     }
+	#keyboard{
+		display:none;
+	}
 }

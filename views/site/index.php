@@ -1,46 +1,38 @@
 <?php
 /* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\bootstrap\Modal;
 $this->title = 'My Yii Application';
 ?>
+
 <div class="site-index" id="page-inner">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-head-line">DASHBOARD</h1>
+			<h1 class="page-head-line">DASHBOARD<?php //echo var_dump(Yii::$app->request); ?></h1>
 		</div>
 	</div>
 	<div class="row">
             <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-one">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-headphones"></span>
-                                 <h5>Some Sample Text</h5>
-                            </a>
-                        </div>
-                        </div>
+					<?= Html::a('<span class="glyphicon glyphicon-headphones"></span><h5>Item</h5>', ['item/index']) ?>
+                </div>
+            </div>
               <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-two">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-repeat"></span>
-                                 <h5>Some Sample Text</h5>
-                            </a>
-                        </div>
-                        </div>
+					<?= Html::a('<span class="glyphicon glyphicon-repeat"></span><h5>Customer</h5>', ['customer/index']) ?>
+                </div>
+              </div>
              <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-three">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-camera"></span>
-                                 <h5>Some Sample Text</h5>
-                            </a>
-                        </div>
-                        </div>
+					<?= Html::a('<span class="glyphicon glyphicon-camera"></span><h5>Category</h5>', ['item/index']) ?>
+                </div>
+             </div>
               <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-four">
-                            <a href="#">
-                                <span class="glyphicon glyphicon-cog"></span>
-                                <h5>Some Sample Text</h5>
-                            </a>
+					<?= Html::a('<span class="glyphicon glyphicon-headphones"></span><h5>Some Sample Text</h5>', ['item/index']) ?>
+					
                 </div>
-        </div>      
+			  </div>      
     </div>
     <div class="jumbotron">
         <p><a class="btn btn-lg btn-success" href="#">Get started with Business App</a></p>

@@ -1,3 +1,28 @@
 .form-group .form-control {
-  width: 40%;
+  /*width: 40%; */
   }
+  .input-group {
+	/*width: 40%; */
+  }
+  #virtualKeyboard, #keyboard {
+    position: fixed;
+  }
+  @media (min-width:280px) and (max-width:767px ){
+    .form-group .form-control {
+	  width: 100%;
+	  }
+	  .input-group {
+		width: 100%;
+	  }
+	}
+hr {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 1px 0;
+  margin: 5px 0;
+}
