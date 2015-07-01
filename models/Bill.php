@@ -79,7 +79,7 @@ class Bill extends \yii\db\ActiveRecord
     {
         return [
             'bill_ID' => 'Bill  ID',
-            'customer_Id' => 'Customer  ID',
+            'customer_Id' => 'Customer',
             'bill_date' => 'Bill Date',
             'net_amount' => 'Net Amount',
             'gross_amount' => 'Gross Amount',

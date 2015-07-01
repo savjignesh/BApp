@@ -97,12 +97,12 @@ class BillController extends Controller
             ]);
         }
     }
-	 public function actionDetailUpdate($id)
+	 public function actionDupdate($id)
     {
         $model = $this->findBillDetailModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->billdetail_ID]);
+            return $this->redirect(['update', 'id' => $model->bill_Id]);
         } else {
             return $this->render('detail', [
                 'model' => $model,

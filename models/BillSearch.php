@@ -42,7 +42,8 @@ class BillSearch extends Bill
     public function search($params)
     {
         $query = Bill::find();
-
+		//$query->joinWith(['item']);
+		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
