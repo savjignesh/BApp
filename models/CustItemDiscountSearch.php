@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Category;
+use app\models\CustItemDiscount;
 
 /**
- * CategorySearch represents the model behind the search form about `app\models\Category`.
+ * CustItemDiscountSearch represents the model behind the search form about `app\models\CustItemDiscount`.
  */
-class CategorySearch extends Category
+class CustItemDiscountSearch extends CustItemDiscount
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CategorySearch extends Category
     public function rules()
     {
         return [
-            [['category_ID', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
-            [['category_name', 'created_time', 'updated_time'], 'safe'],
+            [['item_Id', 'customer_Id', 'cust_item_discount_ID', 'created_Id', 'updated_Id'], 'integer'],
+            [['discount', 'created_time', 'updated_time'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CategorySearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find();
+        $query = CustItemDiscount::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,16 +56,17 @@ class CategorySearch extends Category
         }
 
         $query->andFilterWhere([
-            'category_ID' => $this->category_ID,
-            'is_deleted' => $this->is_deleted,
+            'item_Id' => $this->item_Id,
+            'customer_Id' => $this->customer_Id,
+            'cust_item_discount_ID' => $this->cust_item_discount_ID,
             'created_Id' => $this->created_Id,
             'created_time' => $this->created_time,
             'updated_Id' => $this->updated_Id,
             'updated_time' => $this->updated_time,
         ]);
 
-        $query->andFilterWhere(['like', 'category_name', $this->category_name]);
-        $query->andWhere('is_deleted = 0');
+        $query->andFilterWhere(['like', 'discount', $this->discount]);
+
         return $dataProvider;
     }
 }

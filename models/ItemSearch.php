@@ -73,7 +73,8 @@ class ItemSearch extends Item
             ->andFilterWhere(['like', 'Item_role', $this->Item_role])
             ->andFilterWhere(['like', 'item_stock', $this->item_stock])
             ->andFilterWhere(['like', 'item_uom', $this->item_uom]);
-
+			
+		$query->andWhere('is_deleted = 0');
         return $dataProvider;
     }
 }

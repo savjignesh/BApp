@@ -71,7 +71,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description',  'purchase_price', 'sales_price'], 'required'],
+            [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description',  'sales_price'], 'required'],
             [['item_cat_Id', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
 			[['file'],'file'],
@@ -89,10 +89,10 @@ class Item extends \yii\db\ActiveRecord
         return [
             'item_ID' => 'Item  ID',
             'item_name' => 'Item Name',
-            'Item_role' => 'Item Role',
+            'Item_role' => 'Item Reorder level',
             'item_stock' => 'Item Stock',
             'item_uom' => 'Item Uom',
-            'item_cat_Id' => 'Item Cat  ID',
+            'item_cat_Id' => 'Item Category',
             'description' => 'Description',
             'image' => 'Image',
             'file' => 'Image',

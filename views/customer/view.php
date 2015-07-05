@@ -46,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'dnd_sms',
             'dnd_call',
             'dnd_email:email',
-            'id_deleted',
             'created_Id',
             'created_time',
             'updated_Id',

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Item', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php \yii\widgets\Pjax::begin(['id' => 'countries']) ?>
+<?php \yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -37,12 +37,18 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => 'html',
 				'label' => 'Image',
 				'filter' =>false,
+				'contentOptions' =>['class' => 'update'],
 				'value' => function ($data) {
 					return Html::img(Yii::$app->homeUrl.'/' . $data['image'],
 						['width' => '60px']);
 				},
 			],
-            'item_name',
+			[
+				'attribute'=>'item_name',
+				'contentOptions' =>['class' => 'update'],
+				'value' => 'item_name'
+			],
+           // 'item_name',
             'description',
             
             'purchase_price',
@@ -97,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php
 $this->registerJs("
 
-    $('td').click(function (e) {
+    $('td.update').click(function (e) {
         var id = $(this).closest('tr').data('id');
         if(e.target == this)
             location.href = '" . Url::to(['update']) . "?id=' + id;

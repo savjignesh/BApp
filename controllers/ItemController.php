@@ -117,7 +117,7 @@ class ItemController extends Controller
         //$this->findModel($id)->delete();
         $model = $this->findModel($id);
 		$model->is_deleted = 1;
-		$model->save();
+		$model->save(false);
         return $this->redirect(['index']);
     }
 

@@ -3,7 +3,9 @@
 namespace app\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\AttributeBehavior;
+use yii\db\Expression;
 /**
  * This is the model class for table "tbl_customer".
  *
@@ -41,6 +43,36 @@ class Customer extends \yii\db\ActiveRecord
         return 'tbl_customer';
     }
 
+    public function behaviors()
+    {
+         return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_time',
+                'updatedAtAttribute' => 'updated_time',
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    Item::EVENT_BEFORE_INSERT => 'created_Id',
+                    Item::EVENT_BEFORE_UPDATE => 'updated_Id',
+                    ],
+                'value' => function ($event) {
+                    return Yii::$app->user->identity->id;
+                    },
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    Item::EVENT_BEFORE_INSERT => 'is_deleted',
+                    ],
+                'value' => function ($event) {
+                    return 0;
+                    },
+            ],
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -48,7 +80,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['customer_name', 'gender', 'home_phone', 'mobile1', 'customer_email', 'address1', 'city','current_balance'], 'required'],
-            [['id_deleted', 'created_Id', 'updated_Id'], 'integer'],
+            [['is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['customer_name', 'home_phone', 'mobile1', 'mobile2', 'customer_email', 'marketing_person_name', 'marketing_persion_contact', 'accounting_persion_name', 'accounting_persion_contact', 'dnd_sms', 'dnd_call', 'dnd_email'], 'string', 'max' => 100],
             [['gender', 'city', 'current_balance'], 'string', 'max' => 50],
@@ -80,7 +112,7 @@ class Customer extends \yii\db\ActiveRecord
             'dnd_sms' => 'Dnd Sms',
             'dnd_call' => 'Dnd Call',
             'dnd_email' => 'Dnd Email',
-            'id_deleted' => 'Id Deleted',
+            'is_deleted' => 'Is Deleted',
             'created_Id' => 'Created  ID',
             'created_time' => 'Created Time',
             'updated_Id' => 'Updated  ID',

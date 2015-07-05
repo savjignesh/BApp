@@ -23,15 +23,17 @@ use kartik\select2\Select2;
 		<div class="col-md-12">
 		<?php $form = ActiveForm::begin(); ?>
 		<?php echo $form->errorSummary($model); ?>
-		<div id="customer">dD</div>
+		<!-- <div id="customer">dD</div> -->
+			
 		<?php
-			Modal::begin([
-				'header' => '<h2>Insert Item Detail</h2>',
-				'id' => 'customer-model'
-			]);
-			echo '<div id="customervalue">fff</div>';
-			Modal::end();
+			// Modal::begin([
+			// 	'header' => '<h2>Insert Item Detail</h2>',
+			// 	'id' => 'customer-model'
+			// ]);
+			// echo '<div id="customervalue">fff</div>';
+			// Modal::end();
 		?>
+
 		<div class="row">
 			<div class=" col-md-6 col-sm-6">
 			
@@ -39,7 +41,7 @@ use kartik\select2\Select2;
 				<?= $form->field($model, 'customer_Id')->widget(Select2::classname(), [
 					'data' => ArrayHelper::map(Customer::find()->all(),'customer_ID','customer_name'),
 					'language' => 'en',
-					'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+					'options' => ['placeholder' => 'Select a color ...', 'multiple' => false],
 					'pluginOptions' => [
 						'tags' => true,
 						'maximumInputLength' => 10

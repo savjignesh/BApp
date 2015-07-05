@@ -18,7 +18,7 @@ class CustomerSearch extends Customer
     public function rules()
     {
         return [
-            [['customer_ID', 'id_deleted', 'created_Id', 'updated_Id'], 'integer'],
+            [['customer_ID', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['customer_name', 'gender', 'home_phone', 'mobile1', 'mobile2', 'customer_email', 'address1', 'address2', 'city', 'current_balance', 'marketing_person_name', 'marketing_persion_contact', 'accounting_persion_name', 'accounting_persion_contact', 'dnd_sms', 'dnd_call', 'dnd_email', 'created_time', 'updated_time'], 'safe'],
         ];
     }
@@ -57,7 +57,7 @@ class CustomerSearch extends Customer
 
         $query->andFilterWhere([
             'customer_ID' => $this->customer_ID,
-            'id_deleted' => $this->id_deleted,
+            'is_deleted' => $this->is_deleted,
             'created_Id' => $this->created_Id,
             'created_time' => $this->created_time,
             'updated_Id' => $this->updated_Id,
@@ -81,7 +81,7 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'dnd_sms', $this->dnd_sms])
             ->andFilterWhere(['like', 'dnd_call', $this->dnd_call])
             ->andFilterWhere(['like', 'dnd_email', $this->dnd_email]);
-
+        $query->andWhere('is_deleted = 0');
         return $dataProvider;
     }
 }

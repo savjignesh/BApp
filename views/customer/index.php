@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,15 +18,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Customer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+	<?php \yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'rowOptions'   => function ($model, $key, $index, $grid) {
+			return ['data-id' => $model->customer_ID];
+		},
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'customer_ID',
-            'customer_name',
+			
+			[
+				'attribute'=>'customer_ID',
+				'contentOptions' =>['class' => 'update'],
+				'value' => 'customer_ID'
+			],
+			[
+				'attribute'=>'customer_name',
+				'contentOptions' =>['class' => 'update'],
+				'value' => 'customer_name'
+			],
             'gender',
             'home_phone',
             'mobile1',
@@ -34,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'customer_email:email',
             // 'address1',
             // 'address2',
-            // 'city',
+             'city',
             // 'current_balance',
             // 'marketing_person_name',
             // 'marketing_persion_contact',
@@ -43,14 +54,58 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'dnd_sms',
             // 'dnd_call',
             // 'dnd_email:email',
-            // 'id_deleted',
+            // 'is_deleted',
             // 'created_Id',
             // 'created_time',
             // 'updated_Id',
             // 'updated_time',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{view}',
+				'buttons' => [
+					'view' => function ($url) {
+						return Html::a(
+							'<span class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></span>',
+							$url, 
+							[
+								'title' => 'Download',
+								'data-pjax' => '0',
+							]
+						);
+					},
+					
+				],
+			],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'template' => '{delete}',
+				'buttons' => [
+					
+					'delete' => function ($url) {
+						return Html::a(
+							'<span class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></span>',
+							$url, 
+							[
+								'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+                                'data-method' => 'post',
+							]
+						);
+					},
+				],
+			],
         ],
     ]); ?>
+		<?php
+			$this->registerJs("
 
+				$('td.update').click(function (e) {
+					var id = $(this).closest('tr').data('id');
+					if(e.target == this)
+						location.href = '" . Url::to(['update']) . "?id=' + id;
+				});
+
+			");
+			?>
+	<?php \yii\widgets\Pjax::end(); ?>
 </div>
