@@ -32,7 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'city',
-
+            [
+                'attribute' => 'id',
+                //'footer'=>$data->pageTotal($dataProvider,'id'),
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

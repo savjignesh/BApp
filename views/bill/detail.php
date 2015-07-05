@@ -35,10 +35,10 @@ use app\models\Item;
 			<?= $form->field($model, 'qty')->textInput(['maxlength' => 50,'autofocus' => 'autofocus']) ?>
 			<?= $form->field($model, 'discount')->textInput(['maxlength' => 50]) ?>
 			<?= $form->field($model, 'price')->textInput(['maxlength' => 50]) ?>
-			<?= $form->field($model, 'vat')->textInput(['readonly' => true,'maxlength' => 50]) ?>
-			<?= $form->field($model, 'tax')->textInput(['readonly' => true, 'maxlength' => 50]) ?>
+			
 			<div class="form-group">
 				<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+				<?= Html::Button('Cancel', ['class' => 'btn btn-danger','data-dismiss'=> 'modal', 'aria-hidden'=>'true']) ?>
 			</div>
 		</div>
 		<div class=" col-md-6 col-sm-6">

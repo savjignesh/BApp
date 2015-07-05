@@ -46,6 +46,9 @@ class BillSearch extends Bill
 		
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 500,
+            ],
         ]);
 
         $this->load($params);
@@ -73,7 +76,7 @@ class BillSearch extends Bill
             ->andFilterWhere(['like', 'tax', $this->tax])
             ->andFilterWhere(['like', 'discount', $this->discount])
             ->andFilterWhere(['like', 'total_items', $this->total_items]);
-
+            $query->andWhere('is_deleted = 0');
         return $dataProvider;
     }
 }

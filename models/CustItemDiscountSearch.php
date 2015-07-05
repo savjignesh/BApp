@@ -45,6 +45,9 @@ class CustItemDiscountSearch extends CustItemDiscount
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 500,
+            ],
         ]);
 
         $this->load($params);

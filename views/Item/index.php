@@ -32,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+				'attribute'=>'item_ID',
+				'contentOptions' =>['class' => 'update'],
+				'value' => 'item_ID'
+			],
              [
 				'attribute' => 'image',
 				'format' => 'html',

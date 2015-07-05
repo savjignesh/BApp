@@ -44,6 +44,9 @@ use app\models\Category;
             <?= $form->field($model, 'item_stock')->textInput(['maxlength' => 50]) ?>
 
             <?= $form->field($model, 'item_uom')->textInput(['maxlength' => 50]) ?>
+
+            <?= $form->field($model, 'vat')->textInput(['maxlength' => 50]) ?>
+            <?= $form->field($model, 'tax')->textInput(['maxlength' => 50]) ?>
         </div>
     	<!--<?php //$form->field($model, 'is_deleted')->dropDownList(['0' => 'No', '1' => 'Yes']); ?> -->
 

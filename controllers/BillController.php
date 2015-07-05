@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Bill;
 use app\models\BillDetail;
+use app\models\Item;
 use app\models\BillSearch;
 use app\models\BillDetailSearch;
 use yii\data\ActiveDataProvider;
@@ -26,6 +27,7 @@ class BillController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    //'ddelete' => ['post'],
                 ],
             ],
         ];
@@ -64,12 +66,22 @@ class BillController extends Controller
 			'billdata' => $BillDetails,
         ]);
     }
-	public function actionDetail($bid, $id, $price)
+	public function actionDetail($bid, $id)
     {
         $model = new Billdetail();
 		$model->item_Id = $bid;
-		$model->bill_Id = $id;
-		$model->price = $price;
+        $model->bill_Id = $id;
+
+        $item = Item::findOne($bid);
+      
+        if($item){
+          $model->price = $item->sales_price;
+          $model->vat   = $item->vat;
+          $model->tax   = $item->tax;
+        }
+
+		
+		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			$connection = Yii::$app->db;
 			
@@ -96,6 +108,12 @@ class BillController extends Controller
                 'model' => $model,
             ]);
         }
+    } 
+     public function actionDdelete($id, $rid)
+    {
+        $this->findBillDetailModel($id)->delete();;
+        
+        return $this->redirect(['update', 'id' => $rid]);
     }
 	 public function actionDupdate($id)
     {
@@ -145,6 +163,9 @@ class BillController extends Controller
 
 		$BillDetails=new ActiveDataProvider([
 			'query' => $query,
+             'pagination' => [
+                'pageSize' => 500,
+            ],
 		]);
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -165,8 +186,10 @@ class BillController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->is_deleted = 1;
+        $model->save(false);
         return $this->redirect(['index']);
     }
 

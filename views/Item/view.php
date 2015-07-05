@@ -42,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'Item_role',
             'item_stock',
             'item_uom',
+            'vat',
+            'tax',
           //  'is_deleted',
             'created_Id',
             'created_time',

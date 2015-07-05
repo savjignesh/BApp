@@ -19,54 +19,66 @@ use yii\db\Expression;
  * @property string $image
  * @property string $purchase_price
  * @property string $sales_price
+ * @property string $vat
+ * @property string $tax
  * @property integer $is_deleted
  * @property integer $created_Id
  * @property string $created_time
  * @property integer $updated_Id
  * @property string $updated_time
+ *
+ * @property TblBilldetail[] $tblBilldetails
  */
 class Item extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
-	public $file;
+    public $file;
     public static function tableName()
     {
         return 'tbl_item';
     }
-
-	public function behaviors()
-	{
-		 return [
-			[
-				'class' => TimestampBehavior::className(),
-				'createdAtAttribute' => 'created_time',
-				'updatedAtAttribute' => 'updated_time',
-				'value' => new Expression('NOW()'),
-			],
-			[
-				'class' => AttributeBehavior::className(),
-				'attributes' => [
-					Item::EVENT_BEFORE_INSERT => 'created_Id',
-					Item::EVENT_BEFORE_UPDATE => 'updated_Id',
-					],
-				'value' => function ($event) {
-					return Yii::$app->user->identity->id;
-					},
-			],
-			[
-				'class' => AttributeBehavior::className(),
-				'attributes' => [
-					Item::EVENT_BEFORE_INSERT => 'is_deleted',
-					],
-				'value' => function ($event) {
-					return 0;
-					},
-			],
-		];
-	}
-     /* @inheritdoc 'created_Id', 'created_time', 'updated_Id', 'updated_time'
+    public function behaviors()
+    {
+         return [
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_time',
+                'updatedAtAttribute' => 'updated_time',
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    Item::EVENT_BEFORE_INSERT => 'created_Id',
+                    Item::EVENT_BEFORE_UPDATE => 'updated_Id',
+                    ],
+                'value' => function ($event) {
+                    return Yii::$app->user->identity->id;
+                    },
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    Item::EVENT_BEFORE_INSERT => 'is_deleted',
+                    ],
+                'value' => function ($event) {
+                    return 0;
+                    },
+            ],
+        ];
+    }
+    public static function pageTotal($provider, $fieldName)
+    {
+        $total=0;
+        foreach($provider as $item){
+            $total+=$item[$fieldName];
+        }
+        return $total;
+    }
+    /**
+     * @inheritdoc
      */
     public function rules()
     {
@@ -74,9 +86,9 @@ class Item extends \yii\db\ActiveRecord
             [['item_name', 'Item_role', 'item_stock', 'item_uom', 'item_cat_Id', 'description',  'sales_price'], 'required'],
             [['item_cat_Id', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
-			[['file'],'file'],
+            [['file'],'file'],
             [['item_name', 'image'], 'string', 'max' => 100],
-            [['Item_role', 'item_stock', 'item_uom', 'purchase_price', 'sales_price'], 'string', 'max' => 50],
+            [['Item_role', 'item_stock', 'item_uom', 'purchase_price', 'sales_price', 'vat', 'tax'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200]
         ];
     }
@@ -98,11 +110,21 @@ class Item extends \yii\db\ActiveRecord
             'file' => 'Image',
             'purchase_price' => 'Purchase Price',
             'sales_price' => 'Sales Price',
+            'vat' => 'Vat',
+            'tax' => 'Tax',
             'is_deleted' => 'Is Deleted',
             'created_Id' => 'Created  ID',
             'created_time' => 'Created Time',
             'updated_Id' => 'Updated  ID',
             'updated_time' => 'Updated Time',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTblBilldetails()
+    {
+        return $this->hasMany(TblBilldetail::className(), ['item_Id' => 'item_ID']);
     }
 }

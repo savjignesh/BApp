@@ -107,6 +107,9 @@ AppAsset::register($this);
 						<?= Html::a('<i class="fa fa-dashcube"></i>Bill', ['bill/index']) ?>
                     </li>
                     <li>
+                        <?= Html::a('<i class="fa fa-bolt"></i>Customer Discount', ['custitemdiscount/index']) ?>
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-sitemap "></i>Multilevel Link <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
                             <li>

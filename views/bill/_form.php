@@ -88,7 +88,7 @@ use kartik\select2\Select2;
 		</div>
 		<table class="table table-striped table-bordered detail-view">
 			<tbody>
-			<tr><th>Total Items</th><td><?php echo $model->total_items; ?></td><th>Discount</th><td><?php echo $model->discount; ?></td></tr>
+			<tr><th>Total Items</th><td><?php echo $model->total_items; ?></td></tr>
 			<tr><th>Net Amount</th><td><?php echo $model->net_amount; ?></td><th>Gross Amount</th><td><?php echo $model->gross_amount; ?></td></tr>
 			<tr><th>Vat</th><td><?php echo $model->vat; ?></td><th>Tax</th><td><?php echo $model->tax; ?></td></tr>
 			</tbody>
@@ -109,6 +109,7 @@ use kartik\select2\Select2;
 
 						//'billdetail_ID',
 						//'bill_Id',
+						'item_Id',
 						 [
 							'attribute'=>'item_name',
 							'contentOptions' =>['class' => 'modelButton1'],
@@ -116,7 +117,7 @@ use kartik\select2\Select2;
 						],
 						'qty',
 						'price',
-					    'discount',
+					   // 'discount',
 						'vat',
 						'tax',
 						// 'created_Id',
@@ -125,23 +126,23 @@ use kartik\select2\Select2;
 						// 'updated_time',
 
 						//['class' => 'yii\grid\ActionColumn'],
-						[
-							'class' => 'yii\grid\ActionColumn',
-							'template' => '{view}',
-							'buttons' => [
-								'view' => function ($url) {
-									return Html::a(
-										'<span class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></span>',
-										$url, 
-										[
-											'title' => 'Download',
-											'data-pjax' => '0',
-										]
-									);
-								},
+						// [
+						// 	'class' => 'yii\grid\ActionColumn',
+						// 	'template' => '{view}',
+						// 	'buttons' => [
+						// 		'view' => function ($url) {
+						// 			return Html::a(
+						// 				'<span class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></span>',
+						// 				$url, 
+						// 				[
+						// 					'title' => 'Download',
+						// 					'data-pjax' => '0',
+						// 				]
+						// 			);
+						// 		},
 								
-							],
-						],
+						// 	],
+						// ],
 						[
 							'class' => 'yii\grid\ActionColumn',
 							'template' => '{delete}',
@@ -153,11 +154,17 @@ use kartik\select2\Select2;
 										$url, 
 										[
 											'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
-											'data-method' => 'post',
+											//'data-method' => 'post',
 										]
 									);
 								},
 							],
+							'urlCreator' => function ($action, $model, $key, $index) {
+						       
+						            $url = Url::to(['ddelete','id'=>$model->billdetail_ID, 'rid'=>$model->bill_Id]); // your own url generation logic
+						            return $url;
+						        
+						    }
 						],
 					],
 				]); ?>
@@ -183,7 +190,7 @@ use kartik\select2\Select2;
 			
 				<?php
 				$items = Item::find()
-							//->where("reg_date > '2014-01-01' and status=1")
+							->where("is_deleted =0")
 							->all();
 				
 				foreach($items as $item)
@@ -193,7 +200,7 @@ use kartik\select2\Select2;
 					}else{
 						$img= '<img src="'.Yii::$app->homeUrl.'uploads/1.jpg" width="90px" height="90px"><br /><b>'.$item->item_name.'</b>';
 					}
-					echo Html::button($img, ['value'=>Url::to(['detail','bid'=>$item->item_ID,'id'=>$model->bill_ID, 'price'=>$item->sales_price]), 'class'=>'modelButton']);
+					echo Html::button($img, ['value'=>Url::to(['detail','bid'=>$item->item_ID,'id'=>$model->bill_ID]), 'class'=>'modelButton']);
 				}
 				?>	
 			</div>
