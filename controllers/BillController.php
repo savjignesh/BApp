@@ -192,7 +192,34 @@ class BillController extends Controller
         $model->save(false);
         return $this->redirect(['index']);
     }
+    public function actionPrint($id) {
+        // get your HTML raw content without any layouts or scripts
+        $model = Bill::find($id)->one();
+        $data = Billdetail::find()
+                ->where("bill_Id =:id")
+                 ->addParams([':id'=>$id])
+                ->all();
 
+        $content =$this->renderPartial('report',['model'=>$model,'data'=>$data]);
+        
+        $pdf = Yii::$app->pdf;
+        $pdf->options = array('title' => 'PDF Document Title',
+                              'subject' => 'PDF Document Subject',
+                              'keywords' => 'krajee, grid, export, yii2-grid, pdf'
+                              );
+        $pdf->filename = "Billing Reports";
+        $pdf->methods = array( 'SetHeader'=>['Billing Report Header'], 
+                                'SetFooter'=>['{PAGENO}']
+                              );
+       
+        $pdf->content = $content;
+      
+        // return the pdf output as per the destination setting
+        return $pdf->render(); 
+    }
+    public function actionReport($id) {
+        echo "data".$id;
+    }
     /**
      * Finds the Bill model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

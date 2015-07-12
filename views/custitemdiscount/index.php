@@ -30,11 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				'columns' => [
 					['class' => 'yii\grid\SerialColumn'],
 					'item_name',
+					'sales_price',
 					[
 					 'label'=>'Link',
 					 'format'=>'raw',
 					 'value' => function($data){
-						 return Html::a('', ['upvote', 'id' =>$data->item_ID], ['title' => 'Go','class' => 'btn btn-warning glyphicon glyphicon-arrow-right']); 
+					 	$cid = $_GET['cid'];
+						 return Html::a('', ['upvote', 'id' =>$data->item_ID, 'cid'=>$cid], ['title' => 'Go','class' => 'btn btn-warning glyphicon glyphicon-arrow-right']); 
 					 }
 					],
 				],
@@ -46,8 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				'columns' => [
 					['class' => 'yii\grid\SerialColumn'],
 					'item_Id',
+					 [
+			            'attribute'=>'item_Id',
+			            'content'=>function($data){
+			                return Item::find($data->item_Id)->one()->item_name;
+			            }
+			        ],
+
 					//'item.iteam_name',
-					//'customer_Id',
+				    //'customer_Id',
 					//'cust_item_discount_ID',
 					'discount',
 					//'created_Id',
@@ -56,21 +65,27 @@ $this->params['breadcrumbs'][] = $this->title;
 					// 'updated_time',
 
 					//['class' => 'yii\grid\ActionColumn'],
+				
 					[
 						'class' => 'yii\grid\ActionColumn',
-						'template' => '{delete}',
-						'buttons' => [
-							'delete' => function ($url) {
-								return Html::a(
-									'<span class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></span>',
-									$url, 
-									[
-										'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
-										'data-method' => 'post',
-									]
-								);
-							},
-						],
+					    'template' => '{delete}',
+					    'buttons' => [
+					        'delete' => function ($url, $model) {
+					            return Html::a('<span class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></span>',
+					             $url, 
+					             [
+					                'title' => Yii::t('app', 'Info'),
+					                'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+									'data-method' => 'post',
+					            ]);
+					        }
+					    ],
+					    'urlCreator' => function ($action, $model, $key, $index) {
+					        if ($action === 'delete') {
+					            $url = \yii\helpers\Url::to(['delete','id'=>$model->cust_item_discount_ID, 'cid'=>$model->customer_Id]); // your own url generation logic
+					            return $url;
+					        }
+					    }
 					],
 				],
 			]); ?>
@@ -78,10 +93,4 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	
 	<?php Pjax::end(); ?>
-
-	
-	
-	
-    
-
 </div>

@@ -28,6 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Print', ['print','id'=>$model->bill_ID], [
+                'class'=>'btn btn-success', 
+                'target'=>'_blank', 
+                'data-toggle'=>'tooltip', 
+                'title'=>'Will open the generated PDF file in a new window'
+            ]);
+            ?>
     </p>
 	
     <?= DetailView::widget([

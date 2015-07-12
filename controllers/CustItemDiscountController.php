@@ -35,49 +35,80 @@ class CustItemDiscountController extends Controller
      * Lists all CustItemDiscount models.
      * @return mixed
      */
-	public function actionUpvote($id)
-	{
-		if($id!=NULL){
-			$model = new CustItemDiscount();
-				$model->item_Id = $id;
-				$model->customer_Id = 2;
-				$model->discount = 1;
-			$model->save(false);
-		}
-		$votes = Yii::$app->session->get('votes', 0);
-		Yii::$app->session->set('votes', ++$votes);
-		
-		$searchModel = new CustItemDiscountSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$searchModel1 = new ItemSearch();
-        $dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
-		$this->layout = 'onecolumn';
-		
-		return $this->renderAjax('index', [
-            'dataProvider' => $dataProvider,
-            'dataProvider1' => $dataProvider1,
-        ]);
-	}
-	 
-	public function actionDownvote()
-	{
-		$votes = Yii::$app->session->get('votes', 0);
-		Yii::$app->session->set('votes', --$votes);
-		return $this->render('index');
-	}
-
-    public function actionIndex()
+    public function actionUpvote($id, $cid)
     {
+        if($id!=NULL){
+            $model = new CustItemDiscount();
+                $model->item_Id = $id;
+                $model->customer_Id = $cid;
+                $model->discount = 1;
+            $model->save(false);
+        }
+         return $this->redirect(['index', 'cid' => $cid]);
+        /*
         $searchModel = new CustItemDiscountSearch();
+        $searchModel->customer_Id = $cid;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-		$searchModel1 = new ItemSearch();
-        $dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
-		$this->layout = 'onecolumn';
-		
+        $connection = \Yii::$app->db;
+        $eitem_query = $connection->createCommand('SELECT i.item_ID FROM `tbl_item` i
+                join tbl_cust_item_discount ic
+                on(i.item_ID = ic.item_ID) where ic.customer_Id=:cid');
+        $eitem_query->bindValue(':cid', $cid);
+        $eitems = $eitem_query->queryAll();
+        
+        $query = Item::find()->where(['NOT IN', 'item_ID', $eitems]);
+        $query->andWhere('is_deleted = 0');
+        $dataProvider1 = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 500,
+            ],
+        ]);
+        $this->layout = 'onecolumn';
+        
+        return $this->renderAjax('index', [
+            'dataProvider' => $dataProvider,
+            'dataProvider1' => $dataProvider1,
+        ]); */
+    }
+     
+    public function actionDownvote()
+    {
+        $votes = Yii::$app->session->get('votes', 0);
+        Yii::$app->session->set('votes', --$votes);
+        return $this->render('index');
+    }
+
+    public function actionIndex($cid)
+    {
+        $searchModel = new CustItemDiscountSearch();
+        $searchModel->customer_Id = $cid;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $connection = \Yii::$app->db;
+        $eitem_query = $connection->createCommand('SELECT i.item_ID FROM `tbl_item` i
+                join tbl_cust_item_discount ic
+                on(i.item_ID = ic.item_ID) where ic.customer_Id=:cid');
+        $eitem_query->bindValue(':cid', $cid);
+        $eitems = $eitem_query->queryAll();
+        
+        $query = Item::find()->where(['NOT IN', 'item_ID', $eitems]);
+        $query->andWhere('is_deleted = 0');
+        $dataProvider1 = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 500,
+            ],
+        ]);
+       // $searchModel1 = new ItemSearch();
+        //$dataProvider1 = $searchModel1->search(Yii::$app->request->queryParams);
+        $this->layout = 'onecolumn';
+        
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'dataProvider1' => $dataProvider1,
+            
         ]);
     }
 
@@ -136,11 +167,11 @@ class CustItemDiscountController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $cid)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'cid'=>$cid]);
     }
 
     /**

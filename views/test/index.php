@@ -18,26 +18,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     
    <!-- Render create form -->    
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?php // $this->render('_form', [
+        //'model' => $model,
+    //]) 
+echo Html::a('<i class="fa glyphicon glyphicon-hand-up"></i> Privacy Statement', ['/test/report'], [
+    'class'=>'btn btn-danger', 
+    'target'=>'_blank', 
+    'data-toggle'=>'tooltip', 
+    'title'=>'Will open the generated PDF file in a new window'
+]);
+    ?>
 
-	<?php Pjax::begin(['id' => 'countries']) ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'city',
-            [
-                'attribute' => 'id',
-                //'footer'=>$data->pageTotal($dataProvider,'id'),
-            ],
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-	<?php Pjax::end() ?>
+    
+	
 </div>

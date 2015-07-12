@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Customer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-	<?php \yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
+	<?php //\yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -60,6 +60,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_Id',
             // 'updated_time',
             //['class' => 'yii\grid\ActionColumn'],
+              [
+	             'label'=>'',
+	             'format'=>'raw',
+	             'value' => function($data){
+	                 $url = "http://www.bsourcecode.com";
+	                 return Html::a('<span class="btn btn-primary"><span class="glyphicon glyphicon-star-empty"></span></span>', ['custitemdiscount/index', 'cid'=>$data->customer_ID], ['title' => 'Go']); 
+	             }
+			],
 			[
 				'class' => 'yii\grid\ActionColumn',
 				'template' => '{view}',
@@ -107,5 +115,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 			");
 			?>
-	<?php \yii\widgets\Pjax::end(); ?>
+	<?php //\yii\widgets\Pjax::end(); ?>
 </div>
