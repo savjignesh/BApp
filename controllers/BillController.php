@@ -184,29 +184,29 @@ class BillController extends Controller
 
                    $cr_check = Credit::find()->where('credit_bill_Id = :cbid', [':cbid' => $model->bill_ID])->all();
                    if($cr_check){
-                        // foreach ($cr_check as $crvalue) {
-                        //     $cr_update = Credit::find($crvalue->credit_ID)->one();
-                        //     if($crvalue->credit_ac_Id = 0 and ($crvalue->credit_type_Id = 3 || $crvalue->credit_type_Id = 2 || $crvalue->credit_type_Id = 7))
-                        //     {
-                        //         $cr_update->credit_type_Id =  Type::find()->where('type_name = :tname', [':tname' => $model->payment_mode])->one()->type_ID;
-                        //         $cr_update->credit_amount  = $model->gross_amount;
-                        //         $cr_update->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                        foreach ($cr_check as $crvalue) {
+                            $cr_update = Credit::find($crvalue->credit_ID)->one();
+                            if($crvalue->credit_ac_Id = 0 and ($crvalue->credit_type_Id = 3 || $crvalue->credit_type_Id = 2 || $crvalue->credit_type_Id = 7))
+                            {
+                                $cr_update->credit_type_Id =  Type::find()->where('type_name = :tname', [':tname' => $model->payment_mode])->one()->type_ID;
+                                $cr_update->credit_amount  = $model->gross_amount;
+                                $cr_update->credit_date    = date("Y-m-d", strtotime($model->bill_date));
 
-                        //     }
-                        //     else if($crvalue->credit_type_Id = 5)
-                        //     {
-                        //         $cr_customer->credit_ac_Id   = $model->customer_Id;
-                        //         $cr_customer->credit_amount  = $model->gross_amount;
-                        //         $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                        //     }
-                        //     else if($crvalue->credit_type_Id = 8)
-                        //     {
-                        //         $cr_customer->credit_ac_Id   = $model->customer_Id;
-                        //         $cr_customer->credit_amount  = $model->gross_amount;
-                        //         $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                        //     }
+                            }
+                            else if($crvalue->credit_type_Id = 5)
+                            {
+                                $cr_customer->credit_ac_Id   = $model->customer_Id;
+                                $cr_customer->credit_amount  = $model->gross_amount;
+                                $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                            }
+                            else if($crvalue->credit_type_Id = 8)
+                            {
+                                $cr_customer->credit_ac_Id   = $model->customer_Id;
+                                $cr_customer->credit_amount  = $model->gross_amount;
+                                $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                            }
                                 
-                        // }
+                        }
                    }else{
                         //bill entry
                        $credit = new Credit();
