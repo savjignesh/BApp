@@ -33,7 +33,7 @@ use app\models\Item;
 		]); ?>
 		<div class="col-md-6 col-sm-6">
 			<?= $form->field($model, 'qty')->textInput(['maxlength' => 50,'autofocus' => 'autofocus']) ?>
-			<?= $form->field($model, 'discount')->textInput(['maxlength' => 50]) ?>
+			<?php //$form->field($model, 'discount')->textInput(['maxlength' => 50]) ?>
 			<?= $form->field($model, 'price')->textInput(['maxlength' => 50]) ?>
 			
 			<div class="form-group">

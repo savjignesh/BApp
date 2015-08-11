@@ -1,6 +1,5 @@
 <?php
-
-namespace app\controllers;
+namespace app\Controllers;
 
 use Yii;
 use app\models\CustItemDiscount;
@@ -14,10 +13,11 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
 use yii\db\Query;
+
 /**
  * CustItemDiscountController implements the CRUD actions for CustItemDiscount model.
  */
-class CustItemDiscountController extends Controller
+class CustitemdiscountController extends Controller
 {
     public function behaviors()
     {
@@ -73,15 +73,15 @@ class CustItemDiscountController extends Controller
         ]); */
     }
      
-    public function actionDownvote()
+    public function actionhello()
     {
-        $votes = Yii::$app->session->get('votes', 0);
-        Yii::$app->session->set('votes', --$votes);
-        return $this->render('index');
+        echo "cool";
     }
 
     public function actionIndex($cid)
     {
+        echo 1;
+        exit;
         $searchModel = new CustItemDiscountSearch();
         $searchModel->customer_Id = $cid;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

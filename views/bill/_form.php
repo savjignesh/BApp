@@ -48,8 +48,8 @@ use kartik\select2\Select2;
 					],
 				]);
 				?>
-				<?php //$form->field($model, 'net_amount')->textInput(['maxlength' => 50]) ?>
-
+				
+				<?= $form->field($model, 'payment_mode')->dropDownList(['Cash' => 'Cash', 'Bank' => 'Bank', 'Credit' => 'Credit']); ?>
 				<?php //$form->field($model, 'gross_amount')->textInput(['maxlength' => 50]) ?>
 
 				<?php //$form->field($model, 'vat')->textInput(['maxlength' => 50]) ?>
@@ -67,7 +67,7 @@ use kartik\select2\Select2;
 				<?=  DatePicker::widget([
 					'model' => $model,
 					'name' => 'Bill[bill_date]',
-					'value' => date('d-M-Y'),
+					'value' => date('d-m-Y'),
 					'type' => DatePicker::TYPE_COMPONENT_APPEND,
 					'readonly' => true,
 					'removeButton' => false,
@@ -88,7 +88,7 @@ use kartik\select2\Select2;
 		</div>
 		<table class="table table-striped table-bordered detail-view">
 			<tbody>
-			<tr><th>Total Items</th><td><?php echo $model->total_items; ?></td></tr>
+			<tr><th colspan=2>Total Items</th><td colspan=2><?php echo $model->total_items; ?></td></tr>
 			<tr><th>Net Amount</th><td><?php echo $model->net_amount; ?></td><th>Gross Amount</th><td><?php echo $model->gross_amount; ?></td></tr>
 			<tr><th>Vat</th><td><?php echo $model->vat; ?></td><th>Tax</th><td><?php echo $model->tax; ?></td></tr>
 			</tbody>

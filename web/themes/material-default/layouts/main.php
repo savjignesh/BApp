@@ -25,6 +25,9 @@ use yii\widgets\Breadcrumbs;
   <!-- CSS  -->
   <link href="<?php echo $this->theme->baseUrl ?>/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="<?php echo $this->theme->baseUrl ?>/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <link rel="stylesheet" href="<?php echo $this->theme->baseUrl ?>/css/jsKeyboard.css" type="text/css" media="screen"/>
+  
 </head>
 <body>
   <?php $this->beginBody() ?>
@@ -35,7 +38,7 @@ use yii\widgets\Breadcrumbs;
 						echo Menu::widget([
 						    'options' => ['id' => "nav-mobile", 'class' => 'right side-nav'],
 						    'items' => [
-						        ['label' => 'Home', 'url' => ['site/index']],
+						        ['label' => 'Home1', 'url' => ['site/index']],
 						        ['label' => 'About', 'url' => ['site/about']],
 						        ['label' => 'Contact', 'url' => ['site/contact']],
 						        ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

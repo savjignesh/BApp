@@ -13,6 +13,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\Credit;
+use app\models\CustItemDiscount;
+use app\models\Type;
 use yii\db\Query;
 
 /**
@@ -41,10 +44,13 @@ class BillController extends Controller
     {
         $searchModel = new BillSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $min = null;
+        $max = null;
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'min' => $min,
+            'max' => $max,
         ]);
     }
 
@@ -69,13 +75,15 @@ class BillController extends Controller
 	public function actionDetail($bid, $id)
     {
         $model = new Billdetail();
-		$model->item_Id = $bid;
+		    $model->item_Id = $bid;
         $model->bill_Id = $id;
 
         $item = Item::findOne($bid);
       
         if($item){
           $model->price = $item->sales_price;
+          $model->discount = CustItemDiscount::find()->where('customer_Id = :id and item_Id = :iid', [':id' => $this->findModel($id)->customer_Id,':iid' => $bid])->one()->discount;
+          ;
           $model->vat   = $item->vat;
           $model->tax   = $item->tax;
         }
@@ -134,7 +142,7 @@ class BillController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Bill();
+    $model = new Bill();
 		$model->bill_date = date('d-M-Y');
 		$model->is_deleted = 1;
 		
@@ -158,7 +166,9 @@ class BillController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+    $model = $this->findModel($id);
+
+    $model->is_deleted = 0;
 		$query = Billdetail::find()->where("bill_Id=".$id);
 
 		$BillDetails=new ActiveDataProvider([
@@ -169,6 +179,81 @@ class BillController extends Controller
 		]);
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            if($model->gross_amount > 0 ){
+
+                   $cr_check = Credit::find()->where('credit_bill_Id = :cbid', [':cbid' => $model->bill_ID])->all();
+                   if($cr_check){
+                        // foreach ($cr_check as $crvalue) {
+                        //     $cr_update = Credit::find($crvalue->credit_ID)->one();
+                        //     if($crvalue->credit_ac_Id = 0 and ($crvalue->credit_type_Id = 3 || $crvalue->credit_type_Id = 2 || $crvalue->credit_type_Id = 7))
+                        //     {
+                        //         $cr_update->credit_type_Id =  Type::find()->where('type_name = :tname', [':tname' => $model->payment_mode])->one()->type_ID;
+                        //         $cr_update->credit_amount  = $model->gross_amount;
+                        //         $cr_update->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+
+                        //     }
+                        //     else if($crvalue->credit_type_Id = 5)
+                        //     {
+                        //         $cr_customer->credit_ac_Id   = $model->customer_Id;
+                        //         $cr_customer->credit_amount  = $model->gross_amount;
+                        //         $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                        //     }
+                        //     else if($crvalue->credit_type_Id = 8)
+                        //     {
+                        //         $cr_customer->credit_ac_Id   = $model->customer_Id;
+                        //         $cr_customer->credit_amount  = $model->gross_amount;
+                        //         $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                        //     }
+                                
+                        // }
+                   }else{
+                        //bill entry
+                       $credit = new Credit();
+
+                       $credit->credit_bill_Id = $model->bill_ID;
+                       //take 0 for bank, cash, credit, office
+                       $credit->credit_ac_Id   = 0;
+
+                       $credit->credit_type_Id =  Type::find()->where('type_name = :tname', [':tname' => $model->payment_mode])->one()->type_ID;
+                       $credit->credit_amount  = $model->gross_amount;
+                       $credit->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                       $credit->save();
+
+                       //Customer Entry
+                       $cr_customer = new Credit();
+
+                       $cr_customer->credit_bill_Id = $model->bill_ID;
+                       $cr_customer->credit_ac_Id   = $model->customer_Id;
+                       $cr_customer->credit_type_Id =  5;
+                       $cr_customer->credit_amount  = $model->gross_amount;
+                       $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                       $cr_customer->save();
+
+                       //Item Entry
+                       $item_data = BillDetail::find()->where('bill_id = :billid', [':billid' => $model->bill_ID])->all();
+                       foreach ($item_data as $items) {
+                           //Item
+                           $cr_item = new Credit();
+                           $cr_item->credit_bill_Id = $model->bill_ID;
+                           $cr_item->credit_ac_Id   = $items->item_Id;
+                           $cr_item->credit_type_Id = 8;
+                           $cr_item->credit_amount  = $items->price;
+                           $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                           $cr_item->save();    
+
+                           //Discount
+                           $cr_item = new Credit();
+                           $cr_item->credit_bill_Id = $model->bill_ID;
+                           $cr_item->credit_ac_Id   = 0;
+                           $cr_item->credit_type_Id = 6;
+                           $cr_item->credit_amount  = $items->discount;
+                           $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
+                           $cr_item->save();                           
+                       } //foreach 
+                   }
+                   
+            }
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -209,6 +294,32 @@ class BillController extends Controller
                               );
         $pdf->filename = "Billing Reports";
         $pdf->methods = array( 'SetHeader'=>['Billing Report Header'], 
+                                'SetFooter'=>['{PAGENO}']
+                              );
+       
+        $pdf->content = $content;
+      
+        // return the pdf output as per the destination setting
+        return $pdf->render(); 
+    }
+    public function actionAccount($id) {
+        // get your HTML raw content without any layouts or scripts
+        $model = Credit::find()->where('credit_type_Id = :cbid', [':cbid' => $id])->all();
+
+        $data = Billdetail::find()
+                ->where("bill_Id =:id")
+                 ->addParams([':id'=>$id])
+                ->all();
+
+        $content =$this->renderPartial('account',['model'=>$model]);
+        
+        $pdf = Yii::$app->pdf;
+        $pdf->options = array('title' => 'PDF Document Title',
+                              'subject' => 'PDF Document Subject',
+                              'keywords' => 'krajee, grid, export, yii2-grid, pdf'
+                              );
+        $pdf->filename = "Billing Reports";
+        $pdf->methods = array( 'SetHeader'=>['Account Report'], 
                                 'SetFooter'=>['{PAGENO}']
                               );
        

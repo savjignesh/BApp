@@ -11,19 +11,20 @@ $config = [
 			'theme' => [
 				'pathMap' => [ 
 					'@app/views' => [ 
-						'@webroot/themes/demo/views',
+						//'@webroot/themes/default/views',
+                        '@webroot/themes/default',
 					]
 				],
-				'baseUrl'   => '@web/themes/demo/views',
+				'baseUrl'   => '@web/themes/default', //material-default
 		   ],
 		],
-         'pdf' => [
-        'class' => Pdf::classname(),
-        'format' => Pdf::FORMAT_A4,
-        'orientation' => Pdf::ORIENT_PORTRAIT,
-        'destination' => Pdf::DEST_BROWSER,
-        // refer settings section for all configuration options
-    ],
+        'pdf' => [
+            'class' => Pdf::classname(),
+            'format' => Pdf::FORMAT_A4,
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            'destination' => Pdf::DEST_BROWSER,
+            // refer settings section for all configuration options
+        ],
 		'urlManager' => [
 			'showScriptName' => false,
 			'enablePrettyUrl' => true

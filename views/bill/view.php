@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'bill_ID',
-            'customer_Id',
+            'customer.customer_name',
             'bill_date',
             'net_amount',
             'gross_amount',
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_Id',
             // 'updated_time',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 	<?php Pjax::end() ?>

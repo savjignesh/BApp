@@ -64,8 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	             'label'=>'',
 	             'format'=>'raw',
 	             'value' => function($data){
-	                 $url = "http://www.bsourcecode.com";
-	                 return Html::a('<span class="btn btn-primary"><span class="glyphicon glyphicon-star-empty"></span></span>', ['custitemdiscount/index', 'cid'=>$data->customer_ID], ['title' => 'Go']); 
+	                 return Html::a('<span class="btn btn-primary"><span class="glyphicon glyphicon-star-empty"></span></span>', ['cdiscount/index', 'cid'=>$data->customer_ID], ['title' => 'Go']); 
 	             }
 			],
 			[

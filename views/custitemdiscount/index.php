@@ -51,14 +51,14 @@ $this->params['breadcrumbs'][] = $this->title;
 					 [
 			            'attribute'=>'item_Id',
 			            'content'=>function($data){
-			                return Item::find($data->item_Id)->one()->item_name;
+			                return Item::find()->where('item_ID = :itemid', [':itemid' => $data->item_Id])->one()->item_name;
 			            }
 			        ],
 
 					//'item.iteam_name',
 				    //'customer_Id',
 					//'cust_item_discount_ID',
-					'discount',
+					//'discount',
 					//'created_Id',
 					// 'created_time',
 					// 'updated_Id',

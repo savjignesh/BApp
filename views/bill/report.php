@@ -15,6 +15,18 @@
 		<td>bill_date</td>
 		<td><?= $model->bill_date; ?></td>
 	</tr>
+	<tr>
+		<td>Gross Amount</td>
+		<td><?= $model->gross_amount; ?></td>
+		<td>discount</td>
+		<td><?= $model->discount; ?></td>
+	</tr>
+	<tr>
+		<td>Vat</td>
+		<td><?= $model->vat; ?></td>
+		<td>Tax</td>
+		<td><?= $model->tax; ?></td>
+	</tr>
 </table>
 <hr>
 <table style="width:100%;">

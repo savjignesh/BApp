@@ -208,7 +208,6 @@ AppAsset::register($this);
 	<script type="text/javascript" src="<?php echo $this->theme->baseUrl ?>/js/jsKeyboard.js"></script>
 	<script src="<?php echo $this->theme->baseUrl ?>/js/main.js"></script>
 	
-	
     <!-- CUSTOM SCRIPTS -->
     <script src="<?php echo $this->theme->baseUrl ?>/js/custom.js"></script>
 <script>

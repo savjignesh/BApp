@@ -64,11 +64,11 @@ class Bill extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_Id', 'bill_date', 'net_amount', 'gross_amount', 'vat', 'tax', 'discount', 'total_items'], 'required'],
+            [['customer_Id', 'bill_date'], 'required'],
             [['customer_Id', 'is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['bill_date'], 'string', 'max' => 25],
-            [['net_amount', 'gross_amount', 'vat', 'tax', 'discount', 'total_items'], 'string', 'max' => 50]
+            [['net_amount', 'gross_amount', 'payment_mode', 'vat', 'tax', 'discount', 'total_items'], 'string', 'max' => 50]
         ];
     }
 
@@ -94,11 +94,18 @@ class Bill extends \yii\db\ActiveRecord
             'updated_time' => 'Updated Time',
         ];
     }
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['customer_ID' => 'customer_Id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTblBilldetails()
+    public function getBilldetail()
     {
         return $this->hasMany(Billdetail::className(), ['bill_Id' => 'bill_ID']);
     }

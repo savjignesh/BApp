@@ -35,10 +35,13 @@ class ItemController extends Controller
 		//$this->layout = 'onecolumn';
         $searchModel = new ItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $min = null;
+        $max = null;
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'min' => $min,
+            'max' => $max,
         ]);
     }
 

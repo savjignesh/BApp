@@ -59,7 +59,8 @@ class TestController extends Controller
  
         $searchModel = new TestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+        $min = null;
+        $max = null;
         if (Yii::$app->request->post('hasEditable')) {
             // instantiate your book model for saving
             $bookId = Yii::$app->request->post('editableKey');
@@ -109,6 +110,8 @@ class TestController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'min' => $min,
+            'max' => $max,
         ]);
     }
 

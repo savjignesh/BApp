@@ -123,8 +123,8 @@ class Item extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTblBilldetails()
+    public function getBilldetail()
     {
-        return $this->hasMany(TblBilldetail::className(), ['item_Id' => 'item_ID']);
+        return $this->hasMany(Billdetail::className(), ['item_Id' => 'item_ID']);
     }
 }

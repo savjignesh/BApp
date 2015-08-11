@@ -43,13 +43,21 @@ class BillSearch extends Bill
     {
         $query = Bill::find();
 		//$query->joinWith(['item']);
-		
+		$query->joinWith(['customer']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 500,
             ],
         ]);
+
+         $dataProvider->sort->attributes['customer'] = [
+        // The tables are the ones our relation are configured to
+        // in my case they are prefixed with "tbl_"
+            'asc' => ['tbl_customer.customer_name' => SORT_ASC],
+            'desc' => ['tbl_customer.customer_name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -76,7 +84,8 @@ class BillSearch extends Bill
             ->andFilterWhere(['like', 'tax', $this->tax])
             ->andFilterWhere(['like', 'discount', $this->discount])
             ->andFilterWhere(['like', 'total_items', $this->total_items]);
-            $query->andWhere('is_deleted = 0');
+            //->andFilterWhere(['like', 'tbl_customer.customer_name', $this->customer_Id]);
+            $query->andWhere('tbl_bill.is_deleted = 0');
         return $dataProvider;
     }
 }
