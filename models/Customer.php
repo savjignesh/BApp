@@ -79,11 +79,11 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_name', 'gender', 'home_phone', 'mobile1', 'customer_email', 'address1', 'city','current_balance'], 'required'],
+            [['customer_name', 'home_phone', 'mobile1', 'customer_email', 'address1', 'city','current_balance'], 'required'],
             [['is_deleted', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['customer_name', 'home_phone', 'mobile1', 'mobile2', 'customer_email', 'marketing_person_name', 'marketing_persion_contact', 'accounting_persion_name', 'accounting_persion_contact', 'dnd_sms', 'dnd_call', 'dnd_email'], 'string', 'max' => 100],
-            [['gender', 'city', 'current_balance'], 'string', 'max' => 50],
+            [['city', 'current_balance'], 'string', 'max' => 50],
             [['address1', 'address2'], 'string', 'max' => 200]
         ];
     }
@@ -96,7 +96,6 @@ class Customer extends \yii\db\ActiveRecord
         return [
             'customer_ID' => 'Customer  ID',
             'customer_name' => 'Customer Name',
-            'gender' => 'Gender',
             'home_phone' => 'Home Phone',
             'mobile1' => 'Mobile1',
             'mobile2' => 'Mobile2',
@@ -104,7 +103,7 @@ class Customer extends \yii\db\ActiveRecord
             'address1' => 'Address1',
             'address2' => 'Address2',
             'city' => 'City',
-            'current_balance' => 'Current Balance',
+            'current_balance' => 'Opening Balance',
             'marketing_person_name' => 'Marketing Person Name',
             'marketing_persion_contact' => 'Marketing Persion Contact',
             'accounting_persion_name' => 'Accounting Persion Name',

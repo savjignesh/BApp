@@ -63,7 +63,7 @@ class CustomerController extends Controller
         $model = new Customer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->customer_ID]);
+            return $this->redirect(['cdiscount/index', 'cid' => $model->customer_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,

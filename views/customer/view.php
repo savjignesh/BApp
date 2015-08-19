@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'customer_ID',
             'customer_name',
-            'gender',
             'home_phone',
             'mobile1',
             'mobile2',
@@ -46,10 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'dnd_sms',
             'dnd_call',
             'dnd_email:email',
-            'created_Id',
-            'created_time',
-            'updated_Id',
-            'updated_time',
+            // 'created_Id',
+            // 'created_time',
+            // 'updated_Id',
+            // 'updated_time',
         ],
     ]) ?>
 

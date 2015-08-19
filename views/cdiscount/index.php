@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+    	<?= Html::a('Done', ['customer/view', 'id' => $cid], ['class' => 'btn btn-primary']) ?>
         <?php //Html::a('Create Cust Item Discount', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -37,14 +38,25 @@ $this->params['breadcrumbs'][] = $this->title;
        	'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'item_name',
-			'sales_price',
-			 [
-	            'attribute'=>'item_name',
-	            'content'=>function($data){
-	                return '<input type="text" id="discount-'.$data->item_ID.'" name="row-1-age" value="1">';
-	            }
-	        ],
 			
+			[
+			    'attribute' => 'sales_price',
+			    'contentOptions' => ['class' => 'sales_price'],
+			],
+			 [
+	            'attribute'=>'item_discount(%)',
+	            'content'=>function($data){
+	                return '<input type="text" id="discount-'.$data->item_ID.'" name="row-1-age"  data-price="'.$data->sales_price.'" class="percent" value="1">';
+	            }
+
+	        ],
+			[
+	            'attribute'=>'item_discount(RS)',
+	            'content'=>function($data){
+	                return '<input type="text" id="rs-'.$data->item_ID.'" name="row-1-age"  data-price="'.$data->sales_price.'" class="rs" value="1">';
+	            },
+	            'contentOptions' => ['style' => 'width:10px;']
+	        ],
 			[
 			 'label'=>'Link',
 			 'format'=>'raw',
@@ -60,11 +72,29 @@ $this->params['breadcrumbs'][] = $this->title;
         $(document).ready(function() {
          
             var table=$('#datatables_w0').DataTable();
+			 $('.percent').keyup(function () {
+			 	var id    = $(this).closest('tr').data('key');
+			 	var price = $(this).attr('data-price');
+			 	var final = parseInt(price) * parseInt($(this).val()) / 100;
+		         $('#rs-'+id).val(parseInt(final));
+		      });
+			 $('.rs').keyup(function () {
+			 	var id = $(this).closest('tr').data('key');	
+				var price = $(this).attr('data-price');
+			 	var final = parseInt($(this).val()) * 100 / parseInt(price);
+		        $('#discount-'+id).val(parseInt(final));
+		      });
 
 		    $('.btn-click').click( function() {
 		       
 		         var id = $(this).closest('tr').data('key');
-		       	 var disc = $('#discount-'+id).val();
+		         if($('#discount-'+id).val()=='NaN'){
+					 var disc = 0;
+		         }else{
+					 var disc = $('#discount-'+id).val();
+		         }
+		       	
+		       	 
 				 var link = $(this).attr('href')+'&discount='+disc;
 				 $(this).attr('href', link);
 		        return true;

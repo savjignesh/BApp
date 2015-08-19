@@ -17,6 +17,8 @@ use app\models\Category;
     	<?php //$form->errorSummary($model); ?>
         <div class=" col-md-6 col-sm-6">
             <?= $form->field($model, 'item_name')->textInput(['maxlength' => 100]) ?>
+            
+            <?= $form->field($model, 'item_code')->textInput(['maxlength' => 100]) ?>
 
             <?= $form->field($model, 'description')->textArea(['rows' => 6]) ?>
 

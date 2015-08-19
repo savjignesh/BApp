@@ -61,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     
                 ]); 
                 ?></td>
+                
         </tr>
     </tbody></table>
     <?= DataTables::widget([
@@ -73,9 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-				'attribute'=>'item_ID',
+				'attribute'=>'item_code',
 				'contentOptions' =>['class' => 'update'],
-				'value' => 'item_ID'
+				'value' => 'item_code'
 			],
              [
 				'attribute' => 'image',
@@ -231,9 +232,21 @@ $this->params['breadcrumbs'][] = $this->title;
 		        if(e.target == this)
 		            location.href = '" . Url::to(['update']) . "?id=' + id;
 		    });
+       
 
 ");
 ?>
+<!-- <script>
+ function hello(){
+            var oTable=$('#datatables_w0').DataTable();
+
+            /* Add event listeners to the two date-range filtering inputs */
+
+            oTable.draw(); 
+            alert(1);
+        }
+</script>
+<span onclick="hello()">click</span> -->
 <?php /*\yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

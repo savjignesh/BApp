@@ -24,6 +24,8 @@ var jsKeyboard = {
          {
             jsKeyboard.currentElement = $(this);
             jsKeyboard.currentElementCursorPosition = $(this).getCursorPosition();
+                  
+            /* Add event listeners to the two date-range filtering inputs */
             console.log('keyboard is now focused on '+jsKeyboard.currentElement.attr('name')+' at pos('+jsKeyboard.currentElementCursorPosition+')');
          });
     },

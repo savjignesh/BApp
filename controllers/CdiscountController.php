@@ -97,6 +97,7 @@ class CdiscountController extends \yii\web\Controller
         //$this->layout = 'onecolumn';
         
         return $this->render('index', [
+            'cid' => $cid,
             'dataProvider' => $dataProvider,
             'dataProvider1' => $dataProvider1,
             

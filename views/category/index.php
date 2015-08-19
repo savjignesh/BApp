@@ -3,6 +3,11 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+
+use app\models\User;
+
+use fedemotta\datatables\DataTables;
+use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,12 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 	<?php \yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
-    <?= GridView::widget([
+     <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-		'rowOptions'   => function ($model, $key, $index, $grid) {
-			return ['data-id' => $model->category_ID];
-		},
+        'clientOptions' => [
+		    "paging"=>false,
+		   
+		],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -34,15 +40,17 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions' =>['class' => 'update'],
 				'value' => 'category_name'
 			],
-			[
-				'attribute'=>'created_Id',
-				'contentOptions' =>['class' => 'update'],
-				'value' => 'created_Id'
-			],
+			
             //'id_deleted',
-            'created_time',
-            'updated_Id',
-            'updated_time',
+            [
+                'attribute' => 'created_time',
+                'format' => ['date', 'php:d-m-Y']
+            ],   
+           
+            [
+                'attribute' => 'updated_time',
+                'format' => ['date', 'php:d-m-Y']
+            ],   
 
             //['class' => 'yii\grid\ActionColumn'],
 			[

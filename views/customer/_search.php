@@ -19,8 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'customer_name') ?>
 
-    <?= $form->field($model, 'gender') ?>
-
     <?= $form->field($model, 'home_phone') ?>
 
     <?= $form->field($model, 'mobile1') ?>

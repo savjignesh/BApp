@@ -37,6 +37,7 @@ class ItemController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $min = null;
         $max = null;
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -79,10 +79,15 @@ class Category extends \yii\db\ActiveRecord
             'category_ID' => 'Category  ID',
             'category_name' => 'Category Name',
             'is_deleted' => 'Is Deleted',
-            'created_Id' => 'Created  ID',
+            'created_Id' => 'Created Name',
             'created_time' => 'Created Time',
-            'updated_Id' => 'Updated  ID',
+            'updated_Id' => 'Updated Name',
             'updated_time' => 'Updated Time',
         ];
     }
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_Id']);
+    }
+
 }

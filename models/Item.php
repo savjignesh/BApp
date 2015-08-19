@@ -88,7 +88,7 @@ class Item extends \yii\db\ActiveRecord
             [['created_time', 'updated_time'], 'safe'],
             [['file'],'file'],
             [['item_name', 'image'], 'string', 'max' => 100],
-            [['Item_role', 'item_stock', 'item_uom', 'purchase_price', 'sales_price', 'vat', 'tax'], 'string', 'max' => 50],
+            [['Item_role', 'item_code', 'item_stock', 'item_uom', 'purchase_price', 'sales_price', 'vat', 'tax'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 200]
         ];
     }

@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use fedemotta\datatables\DataTables;
+use kartik\date\DatePicker;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,16 +22,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Customer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 	<?php //\yii\widgets\Pjax::begin(['id' => 'countries', 'enablePushState' => false]) ?>
-    <?= GridView::widget([
+    <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-		'rowOptions'   => function ($model, $key, $index, $grid) {
-			return ['data-id' => $model->customer_ID];
-		},
+        'clientOptions' => [
+		    "paging"=>false,
+		   
+		],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-			
-			[
+            [
 				'attribute'=>'customer_ID',
 				'contentOptions' =>['class' => 'update'],
 				'value' => 'customer_ID'
@@ -38,7 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions' =>['class' => 'update'],
 				'value' => 'customer_name'
 			],
-            'gender',
             'home_phone',
             'mobile1',
             // 'mobile2',
@@ -60,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'updated_Id',
             // 'updated_time',
             //['class' => 'yii\grid\ActionColumn'],
-              [
+            [
 	             'label'=>'',
 	             'format'=>'raw',
 	             'value' => function($data){
@@ -101,13 +103,14 @@ $this->params['breadcrumbs'][] = $this->title;
 					},
 				],
 			],
+            
         ],
-    ]); ?>
+    ]);?>
 		<?php
 			$this->registerJs("
 
 				$('td.update').click(function (e) {
-					var id = $(this).closest('tr').data('id');
+					var id = $(this).closest('tr').data('key');
 					if(e.target == this)
 						location.href = '" . Url::to(['update']) . "?id=' + id;
 				});

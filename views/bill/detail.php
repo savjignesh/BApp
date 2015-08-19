@@ -33,7 +33,9 @@ use app\models\Item;
 		]); ?>
 		<div class="col-md-6 col-sm-6">
 			<?= $form->field($model, 'qty')->textInput(['maxlength' => 50,'autofocus' => 'autofocus']) ?>
-			<?php //$form->field($model, 'discount')->textInput(['maxlength' => 50]) ?>
+			<div style="display:none;">
+				<?= $form->field($model, 'discount')->textInput(['maxlength' => 50,'type' => 'hidden']) ?>
+			</div>
 			<?= $form->field($model, 'price')->textInput(['maxlength' => 50]) ?>
 			
 			<div class="form-group">
@@ -70,8 +72,7 @@ use app\models\Item;
 		
 		<?php ActiveForm::end(); ?>
 		</div>
-		<script>
-			$(document).ready(function(){
+		<?php  $this->registerJs("$(document).ready(function(){
 			var id =null;
 			//$('#keypad').fadeToggle('fast');
 			$('input').click(function(){
@@ -106,8 +107,7 @@ use app\models\Item;
 				
 				event.stopPropagation();
 			});
-		});
-	</script>
+		});"); ?>
 	</div>
 </div>
 </div>

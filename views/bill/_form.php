@@ -117,7 +117,7 @@ use kartik\select2\Select2;
 						],
 						'qty',
 						'price',
-					   // 'discount',
+					    'discount',
 						'vat',
 						'tax',
 						// 'created_Id',
@@ -196,9 +196,9 @@ use kartik\select2\Select2;
 				foreach($items as $item)
 				{
 					if($item->image!=null){
-						$img= '<img src="'.Yii::$app->homeUrl.'/'.$item->image.'" width="90px" height="90px"><br /><b>'.$item->item_name.'</b>';
+						$img= '<img src="'.Yii::$app->homeUrl.'/'.$item->image.'" width="90px" height="90px"><br /><b>'.$item->item_code.'</b>';
 					}else{
-						$img= '<img src="'.Yii::$app->homeUrl.'uploads/1.jpg" width="90px" height="90px"><br /><b>'.$item->item_name.'</b>';
+						$img= '<img src="'.Yii::$app->homeUrl.'uploads/1.jpg" width="90px" height="90px"><br /><b>'.$item->item_code.'</b>';
 					}
 					echo Html::button($img, ['value'=>Url::to(['detail','bid'=>$item->item_ID,'id'=>$model->bill_ID]), 'class'=>'modelButton']);
 				}

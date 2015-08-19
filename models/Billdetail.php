@@ -39,7 +39,7 @@ class Billdetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bill_Id', 'item_Id', 'qty', 'price', 'discount'], 'required'], // 'vat', 'tax'
+            [['bill_Id', 'item_Id', 'qty', 'price'], 'required'], // 'vat', 'tax'
             [['bill_Id', 'item_Id', 'created_Id', 'updated_Id'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
             [['qty', 'price', 'discount', 'vat', 'tax'], 'string', 'max' => 50]
