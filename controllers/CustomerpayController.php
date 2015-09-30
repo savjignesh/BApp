@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Customer;
-use app\models\CustomerSearch;
+use app\models\Customerpay;
+use app\models\CustomerpaySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CustomerController implements the CRUD actions for Customer model.
+ * CustomerpayController implements the CRUD actions for Customerpay model.
  */
-class CustomerController extends Controller
+class CustomerpayController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class CustomerController extends Controller
     }
 
     /**
-     * Lists all Customer models.
+     * Lists all Customerpay models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CustomerSearch();
+        $searchModel = new CustomerpaySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * Displays a single Customer model.
+     * Displays a single Customerpay model.
      * @param integer $id
      * @return mixed
      */
@@ -54,25 +54,30 @@ class CustomerController extends Controller
     }
 
     /**
-     * Creates a new Customer model.
+     * Creates a new Customerpay model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Customer();
+        $model = new Customerpay();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['cdiscount/index', 'cid' => $model->customer_ID]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->payment_date = date("Y-m-d", strtotime($model->payment_date));        
+            if($model->save()){
+            
+                return $this->redirect(['index']);
+            // return $this->redirect(['view', 'id' => $model->customerpay_ID]);
+            }
+        }else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
         }
     }
 
     /**
-     * Updates an existing Customer model.
+     * Updates an existing Customerpay model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -81,8 +86,13 @@ class CustomerController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-             return $this->redirect(['view', 'id' => $model->customer_ID]);
+        if ($model->load(Yii::$app->request->post())) {
+             $model->payment_date = date("Y-m-d", strtotime($model->payment_date));        
+            if($model->save()){
+            
+                return $this->redirect(['index']);
+            // return $this->redirect(['view', 'id' => $model->customerpay_ID]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -91,30 +101,28 @@ class CustomerController extends Controller
     }
 
     /**
-     * Deletes an existing Customer model.
+     * Deletes an existing Customerpay model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        //$this->findModel($id)->delete();
-        $model = $this->findModel($id);
-        $model->is_deleted = 1;
-        $model->save(false);
+        $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Customer model based on its primary key value.
+     * Finds the Customerpay model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Customer the loaded model
+     * @return Customerpay the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Customer::findOne($id)) !== null) {
+        if (($model = Customerpay::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

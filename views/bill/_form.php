@@ -11,6 +11,7 @@ use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use app\models\Item;
 use app\models\Customer;
+use app\models\Billdetail;
 use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\Bill */
@@ -41,7 +42,7 @@ use kartik\select2\Select2;
 				<?= $form->field($model, 'customer_Id')->widget(Select2::classname(), [
 					'data' => ArrayHelper::map(Customer::find()->all(),'customer_ID','customer_name'),
 					'language' => 'en',
-					'options' => ['placeholder' => 'Select a color ...', 'multiple' => false],
+					'options' => ['placeholder' => 'Select a customer', 'multiple' => false],
 					'pluginOptions' => [
 						'tags' => true,
 						'maximumInputLength' => 10
@@ -49,7 +50,7 @@ use kartik\select2\Select2;
 				]);
 				?>
 				
-				<?= $form->field($model, 'payment_mode')->dropDownList(['Cash' => 'Cash', 'Bank' => 'Bank', 'Credit' => 'Credit']); ?>
+				<?= $form->field($model, 'payment_mode')->dropDownList(['Cash' => 'Cash', 'Credit' => 'Credit']); ?>
 				<?php //$form->field($model, 'gross_amount')->textInput(['maxlength' => 50]) ?>
 
 				<?php //$form->field($model, 'vat')->textInput(['maxlength' => 50]) ?>
@@ -86,17 +87,6 @@ use kartik\select2\Select2;
 				<br />
 			</div>
 		</div>
-		<table class="table table-striped table-bordered detail-view">
-			<tbody>
-			<tr><th colspan=2>Total Items</th><td colspan=2><?php echo $model->total_items; ?></td></tr>
-			<tr><th>Net Amount</th><td><?php echo $model->net_amount; ?></td><th>Gross Amount</th><td><?php echo $model->gross_amount; ?></td></tr>
-			<tr><th>Vat</th><td><?php echo $model->vat; ?></td><th>Tax</th><td><?php echo $model->tax; ?></td></tr>
-			</tbody>
-		</table>
-		<div class="form-group">
-			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-		</div>
-		<?php ActiveForm::end(); ?>
 		<div class="row">
 			<?php Pjax::begin(['id' => 'countries']) ?>
 				<?= GridView::widget([
@@ -109,7 +99,11 @@ use kartik\select2\Select2;
 
 						//'billdetail_ID',
 						//'bill_Id',
-						'item_Id',
+						 [
+							'attribute'=>'item code',
+							'contentOptions' =>['class' => 'modelButton1'],
+							'value' => 'item.item_code'
+						],
 						 [
 							'attribute'=>'item_name',
 							'contentOptions' =>['class' => 'modelButton1'],
@@ -120,6 +114,16 @@ use kartik\select2\Select2;
 					    'discount',
 						'vat',
 						'tax',
+						[
+				             'label'=>'Amount',
+				             'contentOptions' =>['class' => 'right'],
+				             'format'=>'raw',
+				             'value' => function($data){
+				             	 $discount = ($data->discount > 0 ? $data->discount : 0);
+				                 $Amount = ($data->price  + $data->vat + $data->tax - $discount) *  $data->qty;
+				                 return $Amount; 
+				             }
+						],
 						// 'created_Id',
 						// 'created_time',
 						// 'updated_Id',
@@ -182,6 +186,18 @@ use kartik\select2\Select2;
 
 			");
 			?>
+		<table class="table table-striped table-bordered detail-view">
+			<tbody>
+			<tr><th colspan=2>Total Items</th><td colspan=2><?php echo $model->total_items; ?></td></tr>
+			<tr><th>Net Amount</th><td><?php echo $model->net_amount; ?></td><th>Gross Amount</th><td><?php echo $model->gross_amount; ?></td></tr>
+			<tr><th>Vat</th><td><?php echo $model->vat; ?></td><th>Tax</th><td><?php echo $model->tax; ?></td></tr>
+			</tbody>
+		</table>
+		<div class="form-group">
+			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		</div>
+		<?php ActiveForm::end(); ?>
+		
 		</div>
 		</div>
 		</div>
@@ -189,18 +205,24 @@ use kartik\select2\Select2;
 			<div class="col-md-12">
 			
 				<?php
+
 				$items = Item::find()
 							->where("is_deleted =0")
 							->all();
 				
 				foreach($items as $item)
-				{
-					if($item->image!=null){
-						$img= '<img src="'.Yii::$app->homeUrl.'/'.$item->image.'" width="90px" height="90px"><br /><b>'.$item->item_code.'</b>';
-					}else{
-						$img= '<img src="'.Yii::$app->homeUrl.'uploads/1.jpg" width="90px" height="90px"><br /><b>'.$item->item_code.'</b>';
+				{	
+					$checkiteam = Billdetail::find()->where('bill_Id = :id and item_Id = :iid', [':id' => $_GET['id'],':iid' => $item->item_ID])->one();
+					if(!$checkiteam){
+						$code = ($item->item_code != '' ? $item->item_code : '&nbsp;');
+						if($item->image!=null){
+
+							$img= '<img src="'.Yii::$app->homeUrl.'/'.$item->image.'" width="90px" height="90px"><br /><b>'.$code.'</b>';
+						}else{
+							$img= '<img src="'.Yii::$app->homeUrl.'uploads/1.jpg" width="90px" height="90px"><br /><b>'.$code.'</b>';
+						}
+						echo Html::button($img, ['value'=>Url::to(['detail','bid'=>$item->item_ID,'id'=>$model->bill_ID]), 'class'=>'modelButton']);
 					}
-					echo Html::button($img, ['value'=>Url::to(['detail','bid'=>$item->item_ID,'id'=>$model->bill_ID]), 'class'=>'modelButton']);
 				}
 				?>	
 			</div>
@@ -214,7 +236,7 @@ use kartik\select2\Select2;
 			echo '<div id="modelvalue"></div>';
 			Modal::end();
 		?>
-	
+		
     
 
 </div>

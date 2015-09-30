@@ -17,7 +17,10 @@ use app\models\Item;
 		<?php $items = Item::findOne($model->item_Id); ?>
 		<div class=" col-md-6 col-sm-6">
 			<h4><b>Name: </b><?php echo $items->item_name; ?></h4>
+			<br /><h4><b>Code: </b><?php echo $items->item_code; ?></h4>
 			<br /><?= $items->description; ?>
+			<?php //echo 'cool'.$model->discount; ?>
+			<button id="hiddenstock" stock="<?php echo $items->item_stock; ?>" style="display:none;"></button>
 		</div>
 		<div class="col-md-6 col-sm-6">
 			<?= '<img src="'.Yii::$app->homeUrl.'/'.$items->image.'" width="200px" >'; ?>
@@ -31,6 +34,7 @@ use app\models\Item;
 			'enableClientValidation' => true,
 			'id' => 'Billform'
 		]); ?>
+		<?php //echo $form->errorSummary($model); ?>
 		<div class="col-md-6 col-sm-6">
 			<?= $form->field($model, 'qty')->textInput(['maxlength' => 50,'autofocus' => 'autofocus']) ?>
 			<div style="display:none;">
@@ -73,6 +77,16 @@ use app\models\Item;
 		<?php ActiveForm::end(); ?>
 		</div>
 		<?php  $this->registerJs("$(document).ready(function(){
+			$( '#Billform' ).submit(function( event ) {
+				var qty = $('#billdetail-qty').val();
+				var val = $('#hiddenstock').attr( 'stock' );
+				if(qty){
+					if(parseInt(qty) > parseInt(val)){
+						alert('you can only allow to add Qty '+ val);
+						 event.preventDefault();
+					}	
+				}
+			});
 			var id =null;
 			//$('#keypad').fadeToggle('fast');
 			$('input').click(function(){

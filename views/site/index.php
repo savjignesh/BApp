@@ -12,6 +12,7 @@ $this->title = 'My Yii Application';
 		</div>
 	</div>
 	<div class="row">
+            
             <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-one">
 					<?= Html::a('<span class="glyphicon glyphicon-headphones"></span><h5>Item</h5>', ['item/index']) ?>
@@ -19,7 +20,7 @@ $this->title = 'My Yii Application';
             </div>
               <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-two">
-					<?= Html::a('<span class="glyphicon glyphicon-repeat"></span><h5>Customer</h5>', ['customer/index']) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-repeat"></span><h5>Parties</h5>', ['customer/index']) ?>
                 </div>
               </div>
              <div class=" col-md-3 col-sm-3">
@@ -29,7 +30,7 @@ $this->title = 'My Yii Application';
              </div>
               <div class=" col-md-3 col-sm-3">
                 <div class="style-box-one Style-one-clr-four">
-					<?= Html::a('<span class="glyphicon glyphicon-headphones"></span><h5>Some Sample Text</h5>', ['item/index']) ?>
+					<?= Html::a('<span class="glyphicon glyphicon-headphones"></span><h5>Sales Bill</h5>', ['bill/index']) ?>
 					
                 </div>
 			  </div>      

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-    	<?= Html::a('Done', ['customer/view', 'id' => $cid], ['class' => 'btn btn-primary']) ?>
+    	<?= Html::a('Save', ['customer/view', 'id' => $cid], ['class' => 'btn btn-primary']) ?>
         <?php //Html::a('Create Cust Item Discount', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<div class="row">
 		<div class="col-md-12 col-sm-12">
-		<div class="col-md-6 col-sm-6">
+		<div class="col-md-8 col-sm-8">
 			
 		<?= DataTables::widget([
         'dataProvider' => $dataProvider1,
@@ -104,14 +104,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		");
       ?>
 		</div>
-		<div class="col-md-6 col-sm-6">
+		<div class="col-md-8 col-sm-8">
 			<?= GridView::widget([
 				'dataProvider' => $dataProvider,
 				'columns' => [
 					['class' => 'yii\grid\SerialColumn'],
 					'item_Id',
 					 [
-			            'attribute'=>'item_Id',
+			            'attribute'=>'item_Name',
 			            'content'=>function($data){
 			                return Item::find()->where('item_ID = :itemid', [':itemid' => $data->item_Id])->one()->item_name;
 			            }
@@ -153,6 +153,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			]); ?>
 		</div>
 	</div>
+	 <p>
+    	<?= Html::a('Save', ['customer/view', 'id' => $cid], ['class' => 'btn btn-primary']) ?>
+        <?php //Html::a('Create Cust Item Discount', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 	</div>
 	
 	<?php Pjax::end(); ?>

@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model, 'address2')->textArea(['rows' => 6]) ?>
 		
 		<div class="form-group">
-			<?= Html::submitButton($model->isNewRecord ? 'Continue' : 'Continue1', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+			<?= Html::submitButton($model->isNewRecord ? 'Continue' : 'Continue', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		</div>	
 		</div>
 		<div class=" col-md-6 col-sm-6">

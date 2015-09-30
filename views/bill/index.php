@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'customer.customer_name'
 			],
             'bill_date',
-            'net_amount',
+            //'net_amount',
             'gross_amount',
 
            [

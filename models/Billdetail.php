@@ -39,10 +39,10 @@ class Billdetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bill_Id', 'item_Id', 'qty', 'price'], 'required'], // 'vat', 'tax'
-            [['bill_Id', 'item_Id', 'created_Id', 'updated_Id'], 'integer'],
+            [['bill_Id', 'item_Id', 'qty', 'price', 'final_price'], 'required'], // 'vat', 'tax'
+            [['bill_Id', 'item_Id', 'created_Id', 'updated_Id', 'discount', 'vat', 'tax'], 'integer'],
             [['created_time', 'updated_time'], 'safe'],
-            [['qty', 'price', 'discount', 'vat', 'tax'], 'string', 'max' => 50]
+            [['qty', 'price'], 'string', 'max' => 500]
         ];
     }
 
@@ -57,6 +57,7 @@ class Billdetail extends \yii\db\ActiveRecord
             'item_Id' => 'Item  ID',
             'qty' => 'Qty',
             'price' => 'Price',
+            'final_price' => 'Amount',
             'discount' => 'Discount',
             'vat' => 'Vat',
             'tax' => 'Tax',

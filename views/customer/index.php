@@ -10,7 +10,7 @@ use kartik\date\DatePicker;
 /* @var $searchModel app\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Customers';
+$this->title = 'Parties';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-index">

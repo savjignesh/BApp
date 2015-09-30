@@ -43,21 +43,21 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
                     ['label' => 'Item', 'url' => ['/item/index']],
-                    ['label' => 'Customer', 'url' => ['/customer/index'],
+                    ['label' => 'Parties', 'url' => ['/customer/index'],
                         'items' => [
-                             ['label' => 'New Customer', 'url' => ['/customer/index']],
-                             ['label' => 'Customer Payment', 'url' => ['#']],
+                             ['label' => 'Parties List', 'url' => ['/customer/index']],
+                             ['label' => 'Parties Payment', 'url' => ['/customerpay/index']],
                         ],
                     ],
-                    ['label' => 'Vendor', 'url' => ['/vendor/index'],
-                        'items' => [
-                             ['label' => 'New Vendor', 'url' => ['/vendor/index']],
-                             ['label' => 'Vendor Payment', 'url' => ['#']],
-                        ],
-                    ],
+                    // ['label' => 'Vendor', 'url' => ['/vendor/index'],
+                    //     'items' => [
+                    //          ['label' => 'New Vendor', 'url' => ['/vendor/index']],
+                    //          ['label' => 'Vendor Payment', 'url' => ['#']],
+                    //     ],
+                    // ],
                     ['label' => 'Category', 'url' => ['/category/index']],
                     ['label' => 'Sales Bill', 'url' => ['/bill/index']],
-                    ['label' => 'Leader',
+                    ['label' => 'Laider',
                         'items' => [
                              ['label' => 'Cash', 'url' => ['/bill/account?id=5']],
                               ['label' => 'Cash', 'url' => ['/user/settings/profile']],

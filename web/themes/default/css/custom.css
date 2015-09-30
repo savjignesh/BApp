@@ -1,3 +1,6 @@
+td.right{
+  text-align: right;
+}
 .form-group .form-control {
   /*width: 40%; */
   }

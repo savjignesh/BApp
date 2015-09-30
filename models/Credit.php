@@ -31,7 +31,7 @@ class Credit extends \yii\db\ActiveRecord
     {
         return [
             [['credit_bill_Id', 'credit_ac_Id', 'credit_type_Id', 'credit_amount', 'credit_date'], 'required'],
-            [['credit_bill_Id', 'credit_ac_Id', 'credit_type_Id'], 'integer'],
+            [['credit_bill_Id', 'credit_ac_Id', 'credit_type_Id', 'credit_debit'], 'integer'],
             [['credit_date'], 'safe'],
             [['credit_amount'], 'string', 'max' => 200]
         ];
@@ -49,6 +49,7 @@ class Credit extends \yii\db\ActiveRecord
             'credit_type_Id' => 'Credit Type  ID',
             'credit_amount' => 'Credit Amount',
             'credit_date' => 'Credit Date',
+            'credit_debit' => 'Credit Debit'
         ];
     }
 }
