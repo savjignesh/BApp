@@ -11,15 +11,15 @@ use yii\base\Model;
 class Report extends Model
 {
     public $sdate;
-    public $edate;
-   
+    public $end_date;
+
     public function rules()
     {
         return [
             // Application Name
-           // ['sdate', 'edate', 'required'],
-            ['sdate', 'edate', 'string', 'max' => 150],
-
+           // ['sdate', 'end_date', 'required'],
+            [['sdate', 'end_date'], 'required'],
+            [['item_name', 'end_date'], 'string', 'max' => 150],
            // [['sdate', 'edate'], 'safe'],
         ];
     }
@@ -28,8 +28,8 @@ class Report extends Model
     {
         return [
             'sdate' => 'Start Date',
-            'edate' => 'End Date',
-            
+            'end_date' => 'End Date',
+
         ];
     }
 }
