@@ -67,7 +67,7 @@ class BillController extends Controller
 		$BillDetails=new ActiveDataProvider([
 			'query' => $query,
 		]);
-		
+
       return $this->render('view', [
           'model' => $this->findModel($id),
 		      'billdata' => $BillDetails,
@@ -80,7 +80,7 @@ class BillController extends Controller
         $model->bill_Id = $id;
 
         $item = Item::findOne($bid);
-      
+
         if($item){
           $model->price = $item->sales_price;
           $model->vat   = $item->vat;
@@ -106,14 +106,14 @@ class BillController extends Controller
             $Amount = ($model->price  + $model->vat + $model->tax - $discount) *  $model->qty;
 
             $model->final_price = round($Amount, 2);
-            
+
             if($model->save()){
                 $connection = Yii::$app->db;
                 //update item stock
                 $items = Item::findOne($model->item_Id);
                 $items->item_stock = $items->item_stock - $model->qty;
                 $items->save(false);
-                $sql = $connection->createCommand('SELECT count(billdetail_ID) total, sum(qty) as qty, sum(price * qty) net_amount, sum(final_price) price, 
+                $sql = $connection->createCommand('SELECT count(billdetail_ID) total, sum(qty) as qty, sum(price * qty) net_amount, sum(final_price) price,
                                    sum(discount) discount, sum(vat) vat, sum(tax) tax
                                    FROM tbl_billdetail WHERE bill_Id=:billid');
                 $sql->bindValue(':billid',$model->bill_Id);
@@ -135,14 +135,14 @@ class BillController extends Controller
               echo "error";
               print_r($model->getErrors());
             }
-      			
-           
+
+
         } else {
             return $this->renderAjax('detail', [
                 'model' => $model,
             ]);
         }
-    } 
+    }
      public function actionDdelete($id, $rid)
     {
         $model = $this->findBillDetailModel($id);
@@ -152,7 +152,7 @@ class BillController extends Controller
           $items->item_stock = $items->item_stock + $model->qty;
           $items->save(false);
           $model->delete();
-          $sql = $connection->createCommand('SELECT count(billdetail_ID) total, sum(qty) as qty, sum(price * qty) net_amount, sum(final_price) price, 
+          $sql = $connection->createCommand('SELECT count(billdetail_ID) total, sum(qty) as qty, sum(price * qty) net_amount, sum(final_price) price,
                              sum(discount) discount, sum(vat) vat, sum(tax) tax
                              FROM tbl_billdetail WHERE bill_Id=:billid');
           $sql->bindValue(':billid',$rid);
@@ -175,9 +175,9 @@ class BillController extends Controller
                 $updatebill->tax = 0;
                 $updatebill->total_items = 0;
           }
-         
+
           $updatebill->save(false);
-          
+
         return $this->redirect(['update', 'id' => $rid]);
     }
 	 public function actionDupdate($id)
@@ -202,7 +202,7 @@ class BillController extends Controller
     $model = new Bill();
 		$model->bill_date = date('d-M-Y');
 		$model->is_deleted = 1;
-		
+
   		  if($model->save(false)){
           //if ($model->load(Yii::$app->request->post()) && $model->save()) {
              return $this->redirect(['update', 'id' => $model->bill_ID]);
@@ -233,7 +233,7 @@ class BillController extends Controller
                 'pageSize' => 500,
             ],
 		]);
-		
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             if($model->gross_amount > 0 ){
@@ -244,7 +244,7 @@ class BillController extends Controller
                    // exit;
                    if($cr_check){
                         // foreach ($cr_check as $crvalue) {
-                            
+
                         // }
                         //     $cr_update = Credit::find($crvalue->credit_ID)->one();
                         //     if($crvalue->credit_ac_Id = 0 and ($crvalue->credit_type_Id = 3 || $crvalue->credit_type_Id = 2 || $crvalue->credit_type_Id = 7))
@@ -266,7 +266,7 @@ class BillController extends Controller
                         //         $cr_customer->credit_amount  = $model->gross_amount;
                         //         $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
                         //     }
-                                
+
                         // }
                    }else{
                         //bill entry
@@ -304,7 +304,7 @@ class BillController extends Controller
                            $cr_item->credit_amount  = $items->price;
                            $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
                            $cr_item->credit_debit    = 1;
-                           //$cr_item->save();    
+                           //$cr_item->save();
 
                            //Discount
                            $cr_item = new Credit();
@@ -314,10 +314,10 @@ class BillController extends Controller
                            $cr_item->credit_amount  = $items->discount;
                            $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
                            $cr_item->credit_debit    = 1;
-                           //$cr_item->save();                           
-                       } //foreach 
+                           //$cr_item->save();
+                       } //foreach
                    }
-                   
+
             }
             return $this->redirect(['index']);
         } else {
@@ -352,7 +352,7 @@ class BillController extends Controller
                 ->where("bill_Id =:id")
                  ->addParams([':id'=>$id])
                 ->all();
-                
+
         $content =$this->renderPartial('report',['model'=>$model,'data'=>$data]);
         //echo $content =$this->render('report',['model'=>$model,'data'=>$data]);
         $pdf = Yii::$app->pdf;
@@ -361,20 +361,20 @@ class BillController extends Controller
                               'keywords' => 'krajee, grid, export, yii2-grid, pdf'
                               );
         $pdf->filename = "Billing Reports";
-        $pdf->methods = array( 'SetHeader'=>['Billing Report'], 
+        $pdf->methods = array( 'SetHeader'=>['Billing Report'],
                                 'SetFooter'=>['{PAGENO}']
                               );
         $pdf->content = $content;
-      
+
         // return the pdf output as per the destination setting
-        return $pdf->render(); 
+        return $pdf->render();
     }
     public function actionAccount($id) {
         // get your HTML raw content without any layouts or scripts
         $model = Credit::find()->where('credit_type_Id = :cbid', [':cbid' => $id])->orderBy('credit_date')->all();
         //$model1 = Debit::find()->where('debit_type_Id = :dbid', [':dbid' => 4])->all();
         $connection = Yii::$app->db;
-      
+
         $current_date = date("Y-m-d");
 
         if($current_date > date("Y").'-04-01'){
@@ -395,30 +395,30 @@ class BillController extends Controller
         $sql1->bindValue(':sdate',$d1);
         $opening1 = $sql1->queryOne();
         $opening_balance1 = $opening1['total'];
-        
+
         //  $sql1 = $connection->createCommand('SELECT sum(credit_amount) as total  FROM tbl_credit WHERE credit_type_Id =5 and credit_date > ":sdate" and credit_debit=1');
         // $sql1->bindValue(':sdate',$d2);
         // $opening1 = $sql1->queryOne();
         // $opening_balance1 = $opening1['total'];
 
         $obalance = $opening_balance - $opening_balance1;
-       
-        $content =$this->renderPartial('account',['model'=>$model, 'opening'=>$obalance]);
-        //echo $content =$this->render('account', ['model'=>$model, 'opening'=>$obalance]);//,'model1'=>$model1]);
+
+        //$content =$this->renderPartial('account',['model'=>$model, 'opening'=>$obalance]);
+        echo $content =$this->render('account', ['model'=>$model, 'opening'=>$obalance]);//,'model1'=>$model1]);
         $pdf = Yii::$app->pdf;
         $pdf->options = array('title' => 'PDF Document Title',
                               'subject' => 'PDF Document Subject',
                               'keywords' => 'krajee, grid, export, yii2-grid, pdf'
                               );
         $pdf->filename = "Billing Reports";
-        $pdf->methods = array( 'SetHeader'=>['CASH LEDGER'], 
+        $pdf->methods = array( 'SetHeader'=>['CASH LEDGER'],
                                 'SetFooter'=>['{PAGENO}']
                               );
-       
+
         $pdf->content = $content;
-      
+
         // return the pdf output as per the destination setting
-        return $pdf->render(); 
+        return $pdf->render();
     }
     public function actionReport($id) {
         echo "data".$id;

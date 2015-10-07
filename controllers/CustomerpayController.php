@@ -8,7 +8,7 @@ use app\models\CustomerpaySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\Credit;
 /**
  * CustomerpayController implements the CRUD actions for Customerpay model.
  */
@@ -63,9 +63,19 @@ class CustomerpayController extends Controller
         $model = new Customerpay();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->payment_date = date("Y-m-d", strtotime($model->payment_date));        
+            $model->payment_date = date("Y-m-d", strtotime($model->payment_date));
+
             if($model->save()){
-            
+                $credit = new Credit();
+
+                //take 0 for bank, cash, credit, office
+                $credit->credit_ac_Id   = 0;
+                $credit->credit_type_Id =  5;
+                $credit->credit_amount  = $model->Amount;
+                $credit->credit_date    = date("Y-m-d", strtotime($model->payment_date));
+                $credit->credit_debit   = 0;
+                $credit->save(false);
+
                 return $this->redirect(['index']);
             // return $this->redirect(['view', 'id' => $model->customerpay_ID]);
             }
@@ -87,9 +97,9 @@ class CustomerpayController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-             $model->payment_date = date("Y-m-d", strtotime($model->payment_date));        
+             $model->payment_date = date("Y-m-d", strtotime($model->payment_date));
             if($model->save()){
-            
+
                 return $this->redirect(['index']);
             // return $this->redirect(['view', 'id' => $model->customerpay_ID]);
             }

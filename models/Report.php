@@ -1,5 +1,6 @@
 <?php
 
+
 namespace app\models;
 
 use Yii;
@@ -11,15 +12,16 @@ use yii\base\Model;
 class Report extends Model
 {
     public $sdate;
-    public $end_date;
-
+    public $edate;
+    public $type;
+    public $mode;
     public function rules()
     {
         return [
             // Application Name
            // ['sdate', 'end_date', 'required'],
-            [['sdate', 'end_date'], 'required'],
-            [['item_name', 'end_date'], 'string', 'max' => 150],
+            [['sdate', 'edate'], 'required'],
+            [['item_name', 'end_date', 'type', 'mode'], 'string', 'max' => 150],
            // [['sdate', 'edate'], 'safe'],
         ];
     }
@@ -28,8 +30,9 @@ class Report extends Model
     {
         return [
             'sdate' => 'Start Date',
-            'end_date' => 'End Date',
-
+            'edate' => 'End Date',
+            'type'  => 'Laider Type',
+            'mode'  => 'Mode'
         ];
     }
 }
