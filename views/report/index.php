@@ -70,3 +70,22 @@ use kartik\date\DatePicker;
     </div>
 
 </div>
+<?php
+$script = <<< JS
+$('#report-type').change(function(){
+ $.ajax({
+       url: 'http://localhost/BApp/web/report/sample',
+       type: 'post',
+       data: {searchname: 1 , searchby:2},
+       success: function (data) {
+          console.log(data);
+       }
+  });
+});
+//$('#report-type').change(function(){
+//    alert(1);
+//});
+
+JS;
+$this->registerJs($script);
+?>

@@ -4,6 +4,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Report;
 use app\models\Credit;
+use yii\bootstrap\Alert;
 class ReportController extends \yii\web\Controller
 {
     public function actions()
@@ -17,6 +18,15 @@ class ReportController extends \yii\web\Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+    public function actionSample()
+    {
+        if (Yii::$app->request->isAjax) {
+            $data = Yii::$app->request->post();
+            $searchname= $data['searchname'];
+            $searchby= $data['searchby'];
+            return $searchname.$searchby;
+        }
     }
     public function actionIndex()
     {
@@ -61,7 +71,12 @@ class ReportController extends \yii\web\Controller
            // return $pdf->render();
             return $this->redirect(['index']);
         } else {
-            Yii::$app->session->setFlash('message', "Passwords don't match!");
+            echo Alert::widget([
+                'options' => [
+                    'class' => 'alert-info',
+                ],
+                'body' => 'Say hello...',
+            ]);
             return $this->render('index', [
                 'model' => $model,
             ]);
