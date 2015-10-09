@@ -15,13 +15,14 @@ class Report extends Model
     public $edate;
     public $type;
     public $mode;
+    public $customer;
     public function rules()
     {
         return [
             // Application Name
            // ['sdate', 'end_date', 'required'],
             [['sdate', 'edate'], 'required'],
-            [['item_name', 'end_date', 'type', 'mode'], 'string', 'max' => 150],
+            [['item_name', 'end_date', 'type', 'mode','customer'], 'string', 'max' => 150],
            // [['sdate', 'edate'], 'safe'],
         ];
     }

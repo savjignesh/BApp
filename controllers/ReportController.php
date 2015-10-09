@@ -23,9 +23,19 @@ class ReportController extends \yii\web\Controller
     {
         if (Yii::$app->request->isAjax) {
             $data = Yii::$app->request->post();
-            $searchname= $data['searchname'];
-            $searchby= $data['searchby'];
-            return $searchname.$searchby;
+            $id = $data['id'];
+            //return $id;
+            $customer = Credit::find()->select('credit_ac_Id')
+                                      ->where('credit_type_Id = :cbid', [':cbid' => $id])
+                                      ->groupBy('credit_ac_Id')
+                                      ->all();
+            if($customer){
+                foreach($customer as $cust){
+                    echo "<option value='".$cust->credit_ac_Id."'>".$cust->credit_ac_Id."</option>";
+                }
+            }else{
+                echo "<option>-</option>";
+            }
         }
     }
     public function actionIndex()

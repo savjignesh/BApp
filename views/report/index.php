@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use kartik\date\DatePicker;
 ?>
@@ -34,7 +35,8 @@ use kartik\date\DatePicker;
             ]);
             ?>
             <?= $form->field($model, 'type')->dropDownList(['empty' => '(Select a category)','5' => 'Parties', '1' => 'Cash']); ?>
-<?php // $form->field($model, 'mode')->dropDownList([ '0' => 'Credit', '1' => 'Debit']); ?>
+            <?php // $form->field($model, 'mode')->dropDownList([ '0' => 'Credit', '1' => 'Debit']); ?>
+            <?= $form->field($model, 'customer')->dropDownList(['empty' => '(Select a category)','5' => 'Parties']); ?>
         </div>
         <div class=" col-md-4 col-sm-4">
             <?= '<label>End Date</label>'; ?>
@@ -76,9 +78,11 @@ $('#report-type').change(function(){
  $.ajax({
        url: 'http://localhost/BApp/web/report/sample',
        type: 'post',
-       data: {searchname: 1 , searchby:2},
+       data: {id: $(this).val()},
        success: function (data) {
           console.log(data);
+
+          $( "select#report-customer" ).html( data );
        }
   });
 });
