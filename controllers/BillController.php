@@ -279,8 +279,8 @@ class BillController extends Controller
                        $credit->credit_type_Id =  Type::find()->where('type_name = :tname', [':tname' => $model->payment_mode])->one()->type_ID;
                        $credit->credit_amount  = $model->gross_amount;
                        $credit->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                       $credit->credit_debit   = 1;
-                       //$credit->save();
+                       $credit->credit_debit   = 0;
+                       $credit->save();
 
                        //Customer Entry
                        $cr_customer = new Credit();
@@ -290,8 +290,8 @@ class BillController extends Controller
                        $cr_customer->credit_type_Id =  5;
                        $cr_customer->credit_amount  = $model->gross_amount;
                        $cr_customer->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                       $cr_customer->credit_debit        = 1;
-                       //$cr_customer->save();
+                       $cr_customer->credit_debit        = 0;
+                       $cr_customer->save();
 
                        //Item Entry
                        $item_data = BillDetail::find()->where('bill_id = :billid', [':billid' => $model->bill_ID])->all();
@@ -303,8 +303,8 @@ class BillController extends Controller
                            $cr_item->credit_type_Id = 8;
                            $cr_item->credit_amount  = $items->price;
                            $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                           $cr_item->credit_debit    = 1;
-                           //$cr_item->save();
+                           $cr_item->credit_debit    = 0;
+                           $cr_item->save();
 
                            //Discount
                            $cr_item = new Credit();
@@ -313,8 +313,8 @@ class BillController extends Controller
                            $cr_item->credit_type_Id = 6;
                            $cr_item->credit_amount  = $items->discount;
                            $cr_item->credit_date    = date("Y-m-d", strtotime($model->bill_date));
-                           $cr_item->credit_debit    = 1;
-                           //$cr_item->save();
+                           $cr_item->credit_debit    = 0;
+                           $cr_item->save();
                        } //foreach
                    }
 
@@ -403,8 +403,8 @@ class BillController extends Controller
 
         $obalance = $opening_balance - $opening_balance1;
 
-        //$content =$this->renderPartial('account',['model'=>$model, 'opening'=>$obalance]);
-        echo $content =$this->render('account', ['model'=>$model, 'opening'=>$obalance]);//,'model1'=>$model1]);
+        $content =$this->renderPartial('account',['model'=>$model, 'opening'=>$obalance]);
+        //echo $content =$this->render('account', ['model'=>$model, 'opening'=>$obalance]);//,'model1'=>$model1]);
         $pdf = Yii::$app->pdf;
         $pdf->options = array('title' => 'PDF Document Title',
                               'subject' => 'PDF Document Subject',

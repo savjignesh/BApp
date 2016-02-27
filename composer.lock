@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b515cf25d0a09cd76e399f5cf6e6292f",
+    "hash": "3f21f7184c66aabf816a1a170f1a6ae2",
+    "content-hash": "0f11e74db5f74b9db361cdc68a4ccb77",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -117,6 +118,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Jowin/Datatables-Bootstrap3/zipball/06d78a732dfd1da928ff118dd26249ae94021495",
                 "reference": "06d78a732dfd1da928ff118dd26249ae94021495",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
+        },
+        {
+            "name": "bower-asset/datatables-plugins",
+            "version": "1.10.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Plugins.git",
+                "reference": "75026a5f98a5e7c3dd8e7176f0b44907b1da9dd3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Plugins/zipball/75026a5f98a5e7c3dd8e7176f0b44907b1da9dd3",
+                "reference": "75026a5f98a5e7c3dd8e7176f0b44907b1da9dd3",
                 "shasum": ""
             },
             "type": "bower-asset-library"
@@ -618,7 +635,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/f65fe859e01374545276d40428d6ff75e4985050",
+                "url": "https://api.github.com/repos/kartik-v/yii2-mpdf/zipball/873a4f10ba961bbf3c63c9ede82a13d407f00acf",
                 "reference": "f65fe859e01374545276d40428d6ff75e4985050",
                 "shasum": ""
             },
@@ -714,7 +731,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/585e8797d7982e0c9d09370b98b451a028a59439",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/4d03239c1e28ef8d3b96ab7fe360f5cbda34fb69",
                 "reference": "585e8797d7982e0c9d09370b98b451a028a59439",
                 "shasum": ""
             },
@@ -751,6 +768,64 @@
                 "yii2"
             ],
             "time": "2015-07-01 15:20:59"
+        },
+        {
+            "name": "nullref/yii2-datatables",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NullRefExcep/yii2-datatables.git",
+                "reference": "0593e7e465bc4a9196981327a913c92de08141ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NullRefExcep/yii2-datatables/zipball/0593e7e465bc4a9196981327a913c92de08141ec",
+                "reference": "0593e7e465bc4a9196981327a913c92de08141ec",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/datatables": "~1.10",
+                "bower-asset/datatables-plugins": "~1.0",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "nullref\\datatable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serhiy Vinichuk",
+                    "email": "serhiyvinichuk@gmail.com"
+                },
+                {
+                    "name": "Dmytro Karpovych",
+                    "email": "zayec77@gmail.com"
+                }
+            ],
+            "description": "Yii2 Extension for DataTables jQuery plug-in",
+            "homepage": "https://github.com/NullRefExcep/yii2-datatables",
+            "keywords": [
+                "datatable",
+                "datatables",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii",
+                "yii2"
+            ],
+            "time": "2015-07-07 08:10:43"
         },
         {
             "name": "swiftmailer/swiftmailer",

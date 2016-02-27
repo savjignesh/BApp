@@ -21,8 +21,8 @@ class Report extends Model
         return [
             // Application Name
            // ['sdate', 'end_date', 'required'],
-            [['sdate', 'edate'], 'required'],
-            [['item_name', 'end_date', 'type', 'mode','customer'], 'string', 'max' => 150],
+            [['sdate', 'edate', 'type'], 'required'],
+            [['sdate', 'edate', 'type', 'mode','customer'], 'string', 'max' => 150],
            // [['sdate', 'edate'], 'safe'],
         ];
     }
@@ -33,7 +33,8 @@ class Report extends Model
             'sdate' => 'Start Date',
             'edate' => 'End Date',
             'type'  => 'Laider Type',
-            'mode'  => 'Mode'
+            'mode'  => 'Mode',
+            'customer' => 'Parties'
         ];
     }
 }

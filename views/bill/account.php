@@ -3,7 +3,8 @@ use app\models\Customer;
 use app\models\Vendor;
 ?>
 <div style=" margin: 0px 0px;"><p>Company : ORDER/ESTIMATE</p></div>
-<div style=" margin: 0px 0px;"><p>Report  &nbsp; &nbsp; &nbsp;: CASH LEDGER * *</p></div>
+<div style=" margin: 0px 0px;"><p>Report  &nbsp; &nbsp; &nbsp;: <?php if(!isset($party_name)){ echo 'CASH'; }else{ echo 'PARTY'; } ?> LEDGER * *</p></div>
+<?php if(isset($party_name)){ echo '<div style=" margin: 0px 0px;"><p>Party  &nbsp; &nbsp; &nbsp; &nbsp; : '.$party_name; } ?>
 <div style="margin: 0px 0px;"><p>Period &nbsp; &nbsp; &nbsp;: <?php if(!isset($sdate)){ echo '01/04/'.date("Y").' to '.date("d/m/Y"); }else{ echo date("d/m/Y", strtotime($sdate)).' to '.date("d/m/Y", strtotime($edate)); } ?></p></div>
 
 <table style="width:100%; margin: 15px 0px;">
@@ -37,7 +38,7 @@ use app\models\Vendor;
 				echo '<td style="padding:5px; border-right: solid 1px #000;"><p>Opening Balance</p></td>';
 				echo '<td style="border-right: solid 1px #000;">&nbsp;</td>';
 				echo '<td style="padding:5px;  border-right: solid 1px #000; text-align:right;">'.$opening.'</td>';
-				echo '<td style="padding:5px; border-right: solid 1px #000;">&nbsp;</td>';
+				echo '<td style="padding:5px; border-right: solid 1px #000; width:10px;">&nbsp;</td>';
 			echo '</tr>';
 			$lefttotal = $lefttotal + $opening;
 	    }
@@ -51,7 +52,7 @@ use app\models\Vendor;
 				echo '<td style="text-align:right; border-right: solid 1px #000; padding:5px; width:10px;"><p>'.$value->credit_amount.'</p></td>';
 
 
-				echo '<td style="padding:5px; border-right: solid 1px #000;">&nbsp;</td>';
+				echo '<td style="padding:5px; border-right: solid 1px #000; width:10px;">&nbsp;</td>';
 			echo '</tr>';
 			$lefttotal = $lefttotal + $value->credit_amount;
 		}else{

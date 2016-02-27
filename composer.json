@@ -23,7 +23,9 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "kartik-v/yii2-mpdf": "dev-master",
         "fedemotta/yii2-widget-datatables": "*",
-        "bower-asset/jquery": "~2.0 | ~1.10"
+        "bower-asset/jquery": "~2.0 | ~1.10",
+        "nullref/yii2-datatables": "~1.0"
+		
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

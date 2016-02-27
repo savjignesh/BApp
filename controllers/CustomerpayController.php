@@ -69,7 +69,8 @@ class CustomerpayController extends Controller
                 $credit = new Credit();
 
                 //take 0 for bank, cash, credit, office
-                $credit->credit_ac_Id   = 0;
+                $credit->credit_bill_Id = $model->customerpay_ID;
+                $credit->credit_ac_Id   = $model->customer_Id;
                 $credit->credit_type_Id =  5;
                 $credit->credit_amount  = $model->Amount;
                 $credit->credit_date    = date("Y-m-d", strtotime($model->payment_date));
@@ -98,7 +99,17 @@ class CustomerpayController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
              $model->payment_date = date("Y-m-d", strtotime($model->payment_date));
+             // print_r($model);
+             // exit;
             if($model->save()){
+                $credit = $this->findCreditModel($model->customerpay_ID);
+                //$credit->credit_bill_Id = $model->customerpay_ID;
+                $credit->credit_ac_Id   = $model->customer_Id;
+                $credit->credit_type_Id =  5;
+                $credit->credit_amount  = $model->Amount;
+                $credit->credit_date    = date("Y-m-d", strtotime($model->payment_date));
+                $credit->credit_debit   = 0;
+                $credit->save(false);
 
                 return $this->redirect(['index']);
             // return $this->redirect(['view', 'id' => $model->customerpay_ID]);
@@ -118,7 +129,11 @@ class CustomerpayController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+         $credit = $this->findCreditModel($model->customerpay_ID);
+         $credit->delete();
+         
+        $model->delete();
 
         return $this->redirect(['index']);
     }
@@ -133,6 +148,14 @@ class CustomerpayController extends Controller
     protected function findModel($id)
     {
         if (($model = Customerpay::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    protected function findCreditModel($id)
+    {
+        if (($model = Credit::find($id)->where('credit_bill_Id = :cbid', [':cbid' => $id])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

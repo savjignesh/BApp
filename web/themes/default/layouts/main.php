@@ -57,10 +57,10 @@ AppAsset::register($this);
                     // ],
                     ['label' => 'Category', 'url' => ['/category/index']],
                     ['label' => 'Sales Bill', 'url' => ['/bill/index']],
-                    ['label' => 'Laider',
+                    ['label' => 'ledger',
                         'items' => [
                              ['label' => 'Cash', 'url' => ['/bill/account?id=5']],
-                              ['label' => 'Cash', 'url' => ['/user/settings/profile']],
+                              ['label' => 'All', 'url' => ['/report/']],
                         ],
                     ],
                       

@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use kartik\date\DatePicker;
 ?>
-<h1>Laider</h1>
+<h1>Ledger</h1>
 <div class="report-form">
     <div class="row">
 
@@ -34,9 +34,10 @@ use kartik\date\DatePicker;
                 ]
             ]);
             ?>
-            <?= $form->field($model, 'type')->dropDownList(['empty' => '(Select a category)','5' => 'Parties', '1' => 'Cash']); ?>
+            <br />
+            <?= $form->field($model, 'type')->dropDownList(['' => '(Select a Type)','5' => 'Parties', '1' => 'Cash']); ?>
             <?php // $form->field($model, 'mode')->dropDownList([ '0' => 'Credit', '1' => 'Debit']); ?>
-            <?= $form->field($model, 'customer')->dropDownList(['empty' => '(Select a category)','5' => 'Parties']); ?>
+            <?= $form->field($model, 'customer')->dropDownList(['empty' => '(Select a customer)']); ?>
         </div>
         <div class=" col-md-4 col-sm-4">
             <?= '<label>End Date</label>'; ?>
@@ -74,17 +75,26 @@ use kartik\date\DatePicker;
 </div>
 <?php
 $script = <<< JS
+$(document).ready(function() {
+    $(".field-report-customer").css('display', 'none');
+});
 $('#report-type').change(function(){
  $.ajax({
        url: 'http://localhost/BApp/web/report/sample',
        type: 'post',
        data: {id: $(this).val()},
        success: function (data) {
-          console.log(data);
-
-          $( "select#report-customer" ).html( data );
+        console.log(data);
+        if(data!=''){
+            $(".field-report-customer").css('display', 'block');
+            $( "select#report-customer" ).html( data );
+        }else{
+            $(".field-report-customer").css('display', 'none');
+        }
+          
        }
   });
+   return false;    
 });
 //$('#report-type').change(function(){
 //    alert(1);

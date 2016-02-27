@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
+
 /**
  * ItemController implements the CRUD actions for Item model.
  */
@@ -21,6 +23,19 @@ class ItemController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+                
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+               // 'only' => ['login', 'logout', 'signup'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['create-branch'],
+                    ],
+                   
                 ],
             ],
         ];

@@ -87,6 +87,11 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?php
+                if (Yii::$app->user->can('update-branch')) {
+                  echo 1;
+                }
+            ?>
             <?= $content ?>
         </div>
     </div>
